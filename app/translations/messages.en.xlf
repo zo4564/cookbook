@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="label.actions">
+        <source>label.actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="label.id">
+        <source>label.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="label.title">
+        <source>label.title</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="label.content">
+        <source>label.content</source>
+        <target>Content</target>
+      </trans-unit>
+      <trans-unit id="label.tags">
+        <source>label.tags</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>List is empty.</target>
+      </trans-unit>
+      <trans-unit id="message.recipe_not_found">
+        <source>message.recipe_not_found</source>
+        <target>Recipe not found.</target>
+      </trans-unit>
+      <trans-unit id="title.recipe_list">
+        <source>title.recipe_list</source>
+        <target>Recipes list</target>
+      </trans-unit>
+      <trans-unit id="title.recipe_view">
+        <source>title.recipe_view</source>
+        <target>Recipe view #%id%</target>
+      </trans-unit>
+      <trans-unit id="message.category_not_found">
+         <source>message.category_not_found</source>
+         <target>Category not found.</target>
+      </trans-unit>
+      <trans-unit id="name.category_list">
+        <source>name.category_list</source>
+        <target>Category list</target>
+      </trans-unit>
+      <trans-unit id="name.category_view">
+        <source>name.category_view</source>
+        <target>Category view #%id%</target>
+      </trans-unit>
+      <trans-unit id="label.name">
+        <source>label.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="action.show">
+        <source>action.show</source>
+        <target>Show details</target>
+      </trans-unit>
+    <trans-unit id="title.category_list">
+      <source>title.category_list</source>
+      <target>Category list</target>
+    </trans-unit>
+    <trans-unit id="label.category">
+      <source>label.category</source>
+      <target>Category</target>
+    </trans-unit>
+    <trans-unit id="title.category_details">
+      <source>title.category_details</source>
+      <target>Category details</target>
+    </trans-unit>
+    <trans-unit id="action.back_to_list">
+      <source>action.back_to_list</source>
+      <target>Back to list</target  >
+    </trans-unit>
+    </body>
+  </file>
+</xliff>

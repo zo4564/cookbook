@@ -1,0 +1,24 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+hello_index:
+  path: /hello
+  controller: App\Controller\HelloController::index
+  defaults:
+    name: 'hej'
+
+recipe_index:
+  path: /recipe
+  controller: App\Controller\RecipeController::index
+
+category_index:
+  path: /category
+  controller: App\Controller\CategoryController::index
+
+recipe_show:
+  path: /recipe/show/{id}
+  controller: App\Controller\RecipeController::show
+
+category_show:
+  path: /category/show/{id}
+  controller: App\Controller\CategoryController::show
