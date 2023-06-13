@@ -13,11 +13,50 @@
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{  category.name }}</dd>
         </dl>
-        <p>
-            <a href="{{ url('category_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
+
+        <h3>{{ 'title.recipe_list'|trans }}</h3>
+        {% if pagination is defined and pagination.items|length %}
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'recipe.content') }}</th>
+                    <th>{{ 'label.actions'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for recipe in pagination.items %}
+                    <tr>
+                        <td>{{ recipe.id }}</td>
+                        <td>{{ recipe.title }}</td>
+                        <td>{{ recipe.content }}</td>
+                        <td>
+                            <a href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
+                                {{ 'action.show'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+        {% else %}
+            <p>
+                {{ 'message.empty_list'|trans }}
+            </p>
+        {% endif %}
+
+
     {% else %}
         <p>
             {{ 'message.record_not_found'|trans }}

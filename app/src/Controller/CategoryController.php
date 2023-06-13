@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Service\CategoryService;
 use App\Repository\CategoryRepository;
+use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,12 +63,14 @@ class CategoryController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
-    public function show(CategoryRepository $categoryRepository, int $id): Response
+    public function show(Request $request, CategoryRepository $categoryRepository, RecipeService $recipeService, int $id): Response
     {
         $category = $categoryRepository->find($id);
+        $pagination = $recipeService->getPaginatedListByCategory($request->query->getInt('page', 1), $category);
+
         return $this->render(
             'category/show.html.twig',
-            ['category' => $category]
+            ['category' => $category, 'pagination' => $pagination]
         );
     }
 }

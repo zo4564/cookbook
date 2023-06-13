@@ -5,7 +5,10 @@
 
 namespace App\Service;
 
+use App\Entity\Recipe;
+use App\Entity\Category;
 use App\Repository\RecipeRepository;
+use App\Repository\CategoryRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -47,6 +50,15 @@ class RecipeService implements RecipeServiceInterface
     {
         return $this->paginator->paginate(
             $this->RecipeRepository->findAll(),
+            $page,
+            RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    public function getPaginatedListByCategory(int $page, Category $category): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $category->getRecipes(),
             $page,
             RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
         );
