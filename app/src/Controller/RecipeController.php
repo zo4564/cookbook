@@ -6,7 +6,9 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
+use App\Service\CommentService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,12 +55,14 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET',
     )]
-    public function show(RecipeRepository $recipeRepository, int $id): Response
+    public function show(Request $request, CommentService $commentService, RecipeRepository $recipeRepository, int $id): Response
     {
         $recipe = $recipeRepository->find($id);
+        $pagination = $commentService->getPaginatedListByRecipe($request->query->getInt('page', 1), $recipe);
+
         return $this->render(
             'recipe/show.html.twig',
-            ['recipe' => $recipe]
+            ['recipe' => $recipe, 'pagination' => $pagination]
         );
     }
 }

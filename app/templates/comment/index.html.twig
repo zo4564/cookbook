@@ -1,32 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.category_list'|trans }}
+    {{ 'title.comment_list'|trans }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'name.category_list'|trans }}</h1>
+    <h1>{{ 'title.comment_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.name'|trans, 'category.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'comment.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'comment.content') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'comment.created_at') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for category in pagination.items %}
+            {% for comment in pagination.items %}
                 <tr>
-                    <td>{{ category.id }}</td>
-                    <td>{{ category.name }}</td>
+                    <td>{{ comment.id }}</td>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ comment.createdAt|date('Y/m/d')  }}</td>
                     <td>
-                        <a href="{{ url('category_show', {id: category.id}) }}" name="{{ 'action.show'|trans }}">
+                        <a href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
                     </td>

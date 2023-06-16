@@ -22,6 +22,44 @@
                 {{ 'action.back_to_list'|trans }}
             </a>
         </p>
+
+        <h3>{{ 'title.comment_list'|trans }}</h3>
+        {% if pagination is defined and pagination.items|length %}
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'comment.id') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'comment.content') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'comment.created_at') }}</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in pagination.items %}
+                    <tr>
+                        <td>{{ comment.id }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>{{ comment.createdAt|date('Y/m/d')  }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+        {% else %}
+            <p>
+                {{ 'message.empty_list'|trans }}
+            </p>
+        {% endif %}
+
     {% else %}
         <p>
             {{ 'message.record_not_found'|trans }}

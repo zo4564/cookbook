@@ -4,11 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
-use DateTimeImmutable;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
@@ -21,7 +16,7 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             return;
         }
 
-        $this->createMany(100, 'recipe', function (int $i) {
+        $this->createMany(100, 'recipes', function (int $i) {
             $recipe = new Recipe();
             $recipe->setTitle($this->faker->word);
             $recipe->setContent($this->faker->sentence);
