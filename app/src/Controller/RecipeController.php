@@ -6,14 +6,17 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Form\Type\RecipeType;
 use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use App\Service\CommentService;
+use App\Service\RecipeServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class recipeController.
@@ -21,6 +24,28 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/recipe')]
 class RecipeController extends AbstractController
 {
+    /**
+     * Recipe service.
+     */
+    private RecipeServiceInterface $recipeService;
+
+    /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * Constructor.
+     *
+     * @param RecipeServiceInterface $recipeService Recipe service
+     * @param TranslatorInterface  $translator  Translator
+     */
+    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator)
+    {
+        $this->recipeService = $recipeService;
+        $this->translator = $translator;
+    }
+
     /**
      * Index action.
      *
@@ -64,5 +89,37 @@ class RecipeController extends AbstractController
             'recipe/show.html.twig',
             ['recipe' => $recipe, 'pagination' => $pagination]
         );
+    }
+
+    /**
+     * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/create', name: 'recipe_create', methods: 'GET|POST', )]
+    public function create(Request $request): Response
+    {
+        $recipe = new Recipe();
+        $form = $this->createForm(
+            RecipeType::class,
+            $recipe,
+            ['action' => $this->generateUrl('recipe_create')]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->recipeService->save($recipe);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
+
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render('recipe/create.html.twig',  ['form' => $form->createView()]);
     }
 }

@@ -30,3 +30,11 @@ category_show:
 comment_show:
   path: /comment/show/{id}
   controller: App\Controller\CommentController::show
+
+category_create:
+  path: /category/create
+  controller: App\Controller\CategoryController::create
+
+recipe_create:
+  path: /recipe/create
+  controller: App\Controller\RecipeController::create

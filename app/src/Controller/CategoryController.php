@@ -6,13 +6,16 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Form\Type\CategoryType;
 use App\Service\CategoryService;
 use App\Repository\CategoryRepository;
+use App\Service\CategoryServiceInterface;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class CategoryController.
@@ -23,14 +26,20 @@ class CategoryController extends AbstractController
     /**
      * Category service.
      */
-    private CategoryService $categoryService;
+    private CategoryServiceInterface $categoryService;
+
+    /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
 
     /**
      * Constructor.
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, TranslatorInterface $translator)
     {
         $this->categoryService = $categoryService;
+        $this->translator = $translator;
     }
 
     /**
@@ -72,5 +81,48 @@ class CategoryController extends AbstractController
             'category/show.html.twig',
             ['category' => $category, 'pagination' => $pagination]
         );
+    }
+    /**
+     * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/create',
+        name: 'category_create',
+        methods: 'GET|POST',
+    )]
+    /**
+     * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/create', name: 'category_create', methods: 'GET|POST', )]
+    public function create(Request $request): Response
+    {
+        $category = new Category();
+        $form = $this->createForm(
+            CategoryType::class,
+            $category,
+            ['action' => $this->generateUrl('category_create')]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->categoryService->save($category);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
+
+            return $this->redirectToRoute('category_index');
+        }
+
+        return $this->render('category/create.html.twig',  ['form' => $form->createView()]);
     }
 }

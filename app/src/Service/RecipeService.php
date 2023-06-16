@@ -65,4 +65,24 @@ class RecipeService implements RecipeServiceInterface
             RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+    /**
+     * Save entity.
+     *
+     * @param Recipe $recipe Recipe entity
+     */
+    public function save(Recipe $recipe): void
+    {
+        $this->RecipeRepository->save($recipe);
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Recipe $recipe Recipe entity
+     */
+    public function delete(Recipe $recipe): void
+    {
+        $this->RecipeRepository->delete($recipe);
+    }
+
 }
