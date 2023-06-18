@@ -49,7 +49,7 @@ class RecipeService implements RecipeServiceInterface
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->RecipeRepository->findAll(),
+            $this->RecipeRepository->QueryAll(),
             $page,
             RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
         );

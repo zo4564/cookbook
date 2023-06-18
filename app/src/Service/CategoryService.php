@@ -47,7 +47,7 @@ class CategoryService implements CategoryServiceInterface
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->categoryRepository->findAll(),
+            $this->categoryRepository->QueryAll(),
             $page,
             CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
         );
