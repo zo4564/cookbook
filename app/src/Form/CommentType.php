@@ -1,12 +1,12 @@
 <?php
 /**
- * Recipe type.
+ * Comment type.
  */
 
 namespace App\Form;
 
 use App\Entity\Category;
-use App\Entity\Recipe;
+use App\Entity\Comment;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,9 +14,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class RecipeType.
+ * Class CommentType.
  */
-class RecipeType extends AbstractType
+class CommentType extends AbstractType
 {
     /**
      * Builds the form.
@@ -32,14 +32,6 @@ class RecipeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'title',
-            TextType::class,
-            [
-                'label' => 'label.title',
-                'required' => true,
-                'attr' => ['max_length' => 255],
-            ]);
-        $builder->add(
             'content',
             TextType::class,
             [
@@ -47,19 +39,6 @@ class RecipeType extends AbstractType
                 'required' => true,
                 'attr' => ['max_length' => 255],
             ]);
-        $builder->add(
-            'category',
-            EntityType::class,
-            [
-                'class' => Category::class,
-                'choice_label' => function ($category): string {
-                    return $category->getName();
-                },
-                'label' => 'label.category',
-                'placeholder' => 'label.none',
-                'required' => true,
-            ]
-        );
     }
 
     /**
@@ -69,7 +48,7 @@ class RecipeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Recipe::class]);
+        $resolver->setDefaults(['data_class' => Comment::class]);
     }
 
     /**
@@ -82,6 +61,6 @@ class RecipeType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'recipe';
+        return 'comment';
     }
 }

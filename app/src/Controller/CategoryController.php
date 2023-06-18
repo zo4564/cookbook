@@ -6,7 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Form\Type\CategoryType;
+use App\Form\CategoryType;
 use App\Service\CategoryService;
 use App\Repository\CategoryRepository;
 use App\Service\CategoryServiceInterface;

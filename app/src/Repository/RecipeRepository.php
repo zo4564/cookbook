@@ -106,6 +106,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('recipe');
     }
+
     public function remove(Recipe $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

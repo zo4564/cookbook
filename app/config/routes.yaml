@@ -38,3 +38,7 @@ category_create:
 recipe_create:
   path: /recipe/create
   controller: App\Controller\RecipeController::create
+
+comment_create:
+  path: /comment/create
+  controller: App\Controller\CommentController::create

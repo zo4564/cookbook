@@ -6,12 +6,16 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Recipe;
+use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use App\Service\CommentServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class commentController.
@@ -19,6 +23,28 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/comment')]
 class CommentController extends AbstractController
 {
+    /**
+     * Comment service.
+     */
+    private CommentServiceInterface $commentService;
+
+    /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * Constructor.
+     *
+     * @param CommentServiceInterface $recipeService Recipe service
+     * @param TranslatorInterface  $translator  Translator
+     */
+    public function __construct(CommentServiceInterface $commentService, TranslatorInterface $translator)
+    {
+        $this->commentService = $commentService;
+        $this->translator = $translator;
+    }
+    /**
     /**
      * Index action.
      *
@@ -60,5 +86,36 @@ class CommentController extends AbstractController
             'comment/show.html.twig',
             ['comment' => $comment]
         );
+    }
+    /**
+     * Create action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/create', name: 'comment_create', methods: 'GET|POST', )]
+    public function create(Request $request): Response
+    {
+        $comment = new Comment();
+        $form = $this->createForm(
+            CommentType::class,
+            $comment,
+            ['action' => $this->generateUrl('comment_create')]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->commentService->save($comment);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
+
+            return $this->redirectToRoute('comment_index');
+        }
+
+        return $this->render('comment/create.html.twig',  ['form' => $form->createView()]);
     }
 }

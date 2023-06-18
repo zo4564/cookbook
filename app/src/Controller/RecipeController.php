@@ -6,7 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
-use App\Form\Type\RecipeType;
+use App\Form\RecipeType;
 use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use App\Service\CommentService;
@@ -122,4 +122,6 @@ class RecipeController extends AbstractController
 
         return $this->render('recipe/create.html.twig',  ['form' => $form->createView()]);
     }
+
+
 }

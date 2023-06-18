@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
     {{ 'title.recipe_details'|trans({'%id%': recipe.id|default('')}) }}
 {% endblock %}
 
 {% block body %}
+
+    {# WYSWIETLENIE PRZEPISU #}
     <h1>{{ 'title.recipe_details'|trans({'%id%': recipe.id|default('')}) }}</h1>
     {% if recipe is defined and recipe|length %}
         <dl class="dl-horizontal">
@@ -23,6 +24,7 @@
             </a>
         </p>
 
+    {# KOMENTARZE #}
         <h3>{{ 'title.comment_list'|trans }}</h3>
         {% if pagination is defined and pagination.items|length %}
 
@@ -53,6 +55,12 @@
             <div class="navigation text-center">
                 {{ knp_pagination_render(pagination) }}
             </div>
+        {# DODAJ KOMENTARZ #}
+            <p>
+                <a href="{{ url('comment_create') }}" title="{{ 'action.add_comment'|trans }}">
+                    {{ 'action.add_comment'|trans }}
+                </a>
+            </p>
 
         {% else %}
             <p>

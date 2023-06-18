@@ -65,4 +65,27 @@ class CommentService implements CommentServiceInterface
             CommentRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+    /**
+     * Save entity.
+     *
+     * @param Comment $comment Recipe entity
+     */
+    public function save(Comment $comment): void
+    {
+        if ($comment->getId() == null)
+        {
+            $comment->setCreatedAt(new \DateTimeImmutable());
+        }
+        $this->CommentRepository->save($comment);
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Comment $comment Recipe entity
+     */
+    public function delete(Comment $comment): void
+    {
+        $this->CommentRepository->delete($comment);
+    }
 }

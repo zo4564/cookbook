@@ -3,7 +3,7 @@
  * Category type.
  */
 
-namespace App\Form\Type;
+namespace App\Form;
 
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
