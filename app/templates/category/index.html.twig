@@ -30,6 +30,11 @@
                             {{ 'action.show'|trans }}
                         </a>
                     </td>
+                    <td>
+                        <a href="{{ path('category_delete', {'id': category.id}) }}" name="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

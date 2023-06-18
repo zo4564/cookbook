@@ -42,3 +42,7 @@ recipe_create:
 comment_create:
   path: /comment/create
   controller: App\Controller\CommentController::create
+
+category_delete:
+  path: /category/delete/{id}
+  controller: App\Controller\CategoryController::delete
