@@ -13,8 +13,22 @@
     {% endblock %}
 </head>
 <body>
+<header>
+    <!-- Your header content -->
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div>{{ app.user.email }}</div>
+        <div>
+            <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
+        </div>
+    {% else %}
+        <div>
+            <a href="{{ url('app_login') }}">{{ 'action_login'|trans }}</a>
+        </div>
+    {% endif %}
+</header>
 <main role="main" class="container-fluid">
     {% block body %}
+
         {% endblock %}
 </main>
 {% block javascripts %}
