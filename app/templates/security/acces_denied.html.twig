@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="alert alert-danger">
+        <p>{{ 'message.acces_denied'|trans }}</p>
+    </div>
+    <p>
+        <a href="{{ url('category_index') }}" title="{{ 'action.back_to_list'|trans }}">
+            {{ 'action.back_to_list'|trans }}
+        </a>
+    </p>
+{% endblock %}

@@ -7,6 +7,11 @@
 {% block body %}
 
     <h1>{{ 'title.recipe_list'|trans }}</h1>
+    <p>
+        <a href="{{ url('recipe_create') }}" title="{{ 'action.add_recipe'|trans }}">
+            {{ 'action.add_recipe'|trans }}
+        </a>
+    </p>
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
