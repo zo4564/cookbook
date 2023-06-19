@@ -48,7 +48,7 @@ recipe_create:
   controller: App\Controller\RecipeController::create
 
 comment_create:
-  path: /comment/create
+  path: /comment/create/{id}
   controller: App\Controller\CommentController::create
 
 category_delete:

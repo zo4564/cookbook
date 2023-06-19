@@ -60,19 +60,18 @@
             <div class="navigation text-center">
                 {{ knp_pagination_render(pagination) }}
             </div>
-        {# DODAJ KOMENTARZ #}
-            <p>
-                <a href="{{ url('comment_create') }}" title="{{ 'action.add_comment'|trans }}">
-                    {{ 'action.add_comment'|trans }}
-                </a>
-            </p>
-
         {% else %}
             <p>
                 {{ 'message.empty_list'|trans }}
             </p>
         {% endif %}
 
+        {# DODAJ KOMENTARZ #}
+        <p>
+            <a href="{{ url('comment_create', {id: recipe.id}) }}" title="{{ 'action.add_comment'|trans }}">
+                {{ 'action.add_comment'|trans }}
+            </a>
+        </p>
     {% else %}
         <p>
             {{ 'message.record_not_found'|trans }}

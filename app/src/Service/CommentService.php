@@ -76,10 +76,14 @@ class CommentService implements CommentServiceInterface
             CommentRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+    public function getRecipe(Comment $comment): ?Recipe
+    {
+        return $comment->getRecipe();
+    }
     /**
      * Save entity.
      *
-     * @param Comment $comment Recipe entity
+     * @param Comment $comment Comment entity
      */
     public function save(Comment $comment): void
     {

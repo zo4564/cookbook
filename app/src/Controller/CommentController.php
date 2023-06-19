@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use App\Repository\RecipeRepository;
 use App\Service\CommentServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +40,7 @@ class CommentController extends AbstractController
      * @param CommentServiceInterface $recipeService Recipe service
      * @param TranslatorInterface  $translator  Translator
      */
-    public function __construct(CommentServiceInterface $commentService, TranslatorInterface $translator)
+    public function __construct(CommentServiceInterface $commentService, TranslatorInterface $translator, RecipeRepository $recipeRepository)
     {
         $this->commentService = $commentService;
         $this->translator = $translator;
@@ -94,14 +95,24 @@ class CommentController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'comment_create', methods: 'GET|POST', )]
-    public function create(Request $request): Response
+    #[Route('/create/{id}', name: 'comment_create', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
+    public function create(Request $request, int $id, RecipeRepository $recipeRepository): Response
     {
         $comment = new Comment();
+        $user = $this->getUser();
+        $recipe = $recipeRepository->find($id);
+
+        if (!$recipe) {
+            throw $this->createNotFoundException('Recipe not found');
+        }
+
+        $comment->setUser($user);
+        $comment->setRecipe($recipe);
+
         $form = $this->createForm(
             CommentType::class,
             $comment,
-            ['action' => $this->generateUrl('comment_create')]
+            ['action' => $this->generateUrl('comment_create', ['id' => $id]), 'current_user' => $user, 'current_recipe' => $recipe]
         );
         $form->handleRequest($request);
 
@@ -113,9 +124,9 @@ class CommentController extends AbstractController
                 $this->translator->trans('message.created_successfully')
             );
 
-            return $this->redirectToRoute('comment_index');
+            return $this->redirectToRoute('recipe_show', ['id' => $id]);
         }
 
-        return $this->render('comment/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('comment/create.html.twig', ['form' => $form->createView()]);
     }
 }

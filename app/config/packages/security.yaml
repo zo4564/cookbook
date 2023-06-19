@@ -46,6 +46,7 @@ security:
          - { path: ^/comment, roles: ROLE_ADMIN}
          - { path: ^/user, roles: ROLE_ADMIN}
          - { path: ^/recipe/create, roles: ROLE_USER}
+         - { path: ^/category/create, roles: ROLE_USER}
         # - { path: ^/, roles: ROLE_USER}
 
 when@test:

@@ -55,7 +55,6 @@ class CommentRepository extends ServiceEntityRepository
             )
             ->join('comment.recipe', 'recipe');
     }
-
     /**
      * Count comments by recipe.
      *
