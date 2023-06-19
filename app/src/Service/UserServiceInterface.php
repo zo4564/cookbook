@@ -1,19 +1,17 @@
 <?php
 /**
- * Comment service interface.
+ * User service interface.
  */
 
 namespace App\Service;
 
-use App\Entity\recipe;
-use App\Entity\Comment;
 use App\Entity\User;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Interface CommentServiceInterface.
+ * Interface UserServiceInterface.
  */
-interface CommentServiceInterface
+interface UserServiceInterface
 {
     /**
      * Get paginated list.
@@ -23,7 +21,20 @@ interface CommentServiceInterface
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page): PaginationInterface;
-    public function getPaginatedListByRecipe(int $page, Recipe $recipe): PaginationInterface;
-    public function getPaginatedListByUser(int $page, User $user): PaginationInterface;
+
+
+    /**
+     * Save entity.
+     *
+     * @param User $user User entity
+     */
+    public function save(User $user): void;
+
+    /**
+     * Delete entity.
+     *
+     * @param User $user User entity
+     */
+    public function delete(User $user): void;
 
 }

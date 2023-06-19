@@ -7,6 +7,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Recipe;
 use App\Entity\Comment;
+use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -41,6 +42,9 @@ class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureIn
             $recipe = $this->getRandomReference('recipes');
             $comment->setRecipe($recipe);
 
+            /** @var User $user */
+            $user = $this->getRandomReference('users');
+            $comment->setUser($user);
             return $comment;
         });
 

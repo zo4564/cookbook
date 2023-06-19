@@ -19,6 +19,10 @@ comment_index:
   path: /comment
   controller: App\Controller\CommentController::index
 
+user_index:
+  path: /user
+  controller: App\Controller\UserController::index
+
 recipe_show:
   path: /recipe/show/{id}
   controller: App\Controller\RecipeController::show
@@ -30,6 +34,10 @@ category_show:
 comment_show:
   path: /comment/show/{id}
   controller: App\Controller\CommentController::show
+
+user_show:
+  path: /user/show/{id}
+  controller: App\Controller\UserController::show
 
 category_create:
   path: /category/create

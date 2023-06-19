@@ -44,6 +44,7 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/comment/create, roles: PUBLIC_ACCESS}
          - { path: ^/comment, roles: ROLE_ADMIN}
+         - { path: ^/user, roles: ROLE_ADMIN}
          - { path: ^/recipe/create, roles: ROLE_USER}
         # - { path: ^/, roles: ROLE_USER}
 

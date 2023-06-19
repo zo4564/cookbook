@@ -35,7 +35,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'comment.id') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.user'|trans, 'comment.user.name') }}</th>
                     <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'comment.content') }}</th>
                     <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'comment.created_at') }}</th>
 
@@ -44,7 +44,12 @@
                 <tbody>
                 {% for comment in pagination.items %}
                     <tr>
-                        <td>{{ comment.id }}</td>
+                        {% if comment.user.id is defined %}
+                            <td><a href="{{ url('user_show', {id: comment.user.id}) }}" name="{{ 'action.show'|trans }}">
+                                    {{ comment.user.name }}
+                                </a></td>
+                        {% else %} <td> null </td>
+                        {% endif %}
                         <td>{{ comment.content }}</td>
                         <td>{{ comment.createdAt|date('Y/m/d')  }}</td>
                     </tr>

@@ -24,6 +24,9 @@ class Comment
     #[ORM\ManyToOne]
     private ?Recipe $Recipe = null;
 
+    #[ORM\ManyToOne]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class Comment
     public function setRecipe(?Recipe $Recipe): self
     {
         $this->Recipe = $Recipe;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

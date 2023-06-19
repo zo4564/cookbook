@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Comment;
 use App\Entity\Recipe;
+use App\Entity\User;
 use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -60,6 +61,16 @@ class CommentService implements CommentServiceInterface
         return $this->paginator->paginate(
             $this->CommentRepository->findBy(
                 ['Recipe' => $recipe]
+            ),
+            $page,
+            CommentRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+    public function getPaginatedListByUser(int $page, User $user): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->CommentRepository->findBy(
+                ['user' => $user]
             ),
             $page,
             CommentRepository::PAGINATOR_ITEMS_PER_PAGE

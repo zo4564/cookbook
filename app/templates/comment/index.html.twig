@@ -19,6 +19,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'comment.content') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'comment.created_at') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.recipe'|trans, 'comment.recipe') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.user'|trans, 'comment.user') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -33,6 +34,12 @@
                             {{ comment.recipe.title }}
                             </a></td>
                         {% else %} <td> null </td>
+                    {% endif %}
+                    {% if comment.user.id is defined %}
+                        <td><a href="{{ url('user_show', {id: comment.user.id}) }}" name="{{ 'action.show'|trans }}">
+                                {{ comment.user.name }}
+                            </a></td>
+                    {% else %} <td> null </td>
                     {% endif %}
                     <td>
                         <a href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
