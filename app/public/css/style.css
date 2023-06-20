@@ -1,7 +1,15 @@
 :root {
-    --background: #F8FFDB;
-    --text: #1B1A17;
-    --accent: #B3FFAE;
-    --link: #69747C;
+    --background: #0C0F2B;
+    --text: #fff;
+    --accent: #ad2d53;
+    --accent2: #5d172a;
+    --blue: #516BCE;
+    --link: #dad9e8;
+}
+
+h1 {
+    font-family: 'Euphoria Script', cursive;
+    text-align: center;
+    font-size: 64px;
 }
 

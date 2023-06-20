@@ -24,6 +24,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'recipe.content') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'recipe.createdAt') }}</th>
                 <th>{{ 'label.category'|trans }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
@@ -34,12 +35,21 @@
                     <td>{{ recipe.id }}</td>
                     <td>{{ recipe.title }}</td>
                     <td>{{ recipe.content }}</td>
+                    <td>{{ recipe.createdAt|date('Y/m/d') }}</td>
                     <td><a href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ recipe.category.name }}
                         </a></td>
                     <td>
                         <a href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
+                        </a>
+
+                        <a href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+
+                        <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" name="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
                         </a>
                     </td>
                 </tr>

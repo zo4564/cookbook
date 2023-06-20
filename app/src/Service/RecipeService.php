@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Recipe;
 use App\Entity\Category;
+use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\CategoryRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -26,6 +27,7 @@ class RecipeService implements RecipeServiceInterface
      * Paginator.
      */
     private PaginatorInterface $paginator;
+    private CommentRepository $commentRepository;
 
     /**
      * Constructor.
@@ -33,8 +35,9 @@ class RecipeService implements RecipeServiceInterface
      * @param RecipeRepository     $RecipeRepository Recipe repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(RecipeRepository $RecipeRepository, PaginatorInterface $paginator)
+    public function __construct(RecipeRepository $RecipeRepository, PaginatorInterface $paginator, CommentRepository $commentRepository)
     {
+        $this->commentRepository = $commentRepository;
         $this->RecipeRepository = $RecipeRepository;
         $this->paginator = $paginator;
     }
@@ -72,6 +75,10 @@ class RecipeService implements RecipeServiceInterface
      */
     public function save(Recipe $recipe): void
     {
+        if ($recipe->getId() == null)
+        {
+            $recipe->setCreatedAt(new \DateTimeImmutable());
+        }
         $this->RecipeRepository->save($recipe);
     }
 
@@ -82,6 +89,12 @@ class RecipeService implements RecipeServiceInterface
      */
     public function delete(Recipe $recipe): void
     {
+        $comments = $this->commentRepository->findBy(
+            ['Recipe' => $recipe]
+        );
+        foreach ($comments as $comment) {
+            $this->commentRepository->delete($comment);
+        }
         $this->RecipeRepository->delete($recipe);
     }
 

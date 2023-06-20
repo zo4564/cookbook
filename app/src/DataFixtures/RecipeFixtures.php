@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
@@ -20,6 +21,11 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $recipe = new Recipe();
             $recipe->setTitle($this->faker->word);
             $recipe->setContent($this->faker->sentence);
+            $recipe->setCreatedAt(
+                DateTimeImmutable::createFromMutable(
+                    $this->faker->dateTimeBetween('-100 days', '-1 days')
+                )
+            );
 
             /** @var Category $category */
             $category = $this->getRandomReference('categories');

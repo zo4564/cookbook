@@ -1,0 +1,39 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand px-3" href="#">Giganci Gotowania</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('category_index') }}" name="{{ 'name.category_list'|trans }}">
+                    Categories
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('recipe_index') }}" name="{{ 'name.recipe_list'|trans }}">
+                    Recipes
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('comment_index') }}" name="{{ 'name.comment_list'|trans }}">
+                    Comments
+                </a>
+            </li>
+        </ul>
+        <div class="px-3">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div>{{ app.user.email }}</div>
+                <div>
+                    <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
+                </div>
+            {% else %}
+                <div>
+                    <a href="{{ url('app_login') }}">{{ 'action_login'|trans }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>

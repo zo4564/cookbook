@@ -39,6 +39,10 @@ user_show:
   path: /user/show/{id}
   controller: App\Controller\UserController::show
 
+admin:
+  path: /user/admin
+  controller: App\Controller\UserController::admin
+
 category_create:
   path: /category/create
   controller: App\Controller\CategoryController::create
@@ -51,9 +55,17 @@ comment_create:
   path: /comment/create/{id}
   controller: App\Controller\CommentController::create
 
+recipe_edit:
+  path: /recipe/edit/{id}
+  controller: App\Controller\RecipeController::edit
+
 category_delete:
   path: /category/delete/{id}
   controller: App\Controller\CategoryController::delete
+
+recipe_delete:
+  path: /recipe/delete/{id}
+  controller: App\Controller\RecipeController::delete
 
 app_login:
   path: /login
@@ -64,3 +76,4 @@ app_logout:
   path: /logout
   controller: App\Controller\SecurityController::logout
   methods: [GET, POST]
+

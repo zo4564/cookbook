@@ -33,14 +33,16 @@ class CategoryController extends AbstractController
      * Translator.
      */
     private TranslatorInterface $translator;
+    private CategoryRepository $categoryRepository;
 
     /**
      * Constructor.
      */
-    public function __construct(CategoryService $categoryService, TranslatorInterface $translator)
+    public function __construct(CategoryService $categoryService, TranslatorInterface $translator, CategoryRepository $categoryRepository)
     {
         $this->categoryService = $categoryService;
         $this->translator = $translator;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -130,18 +132,23 @@ class CategoryController extends AbstractController
     /**
      * Delete action.
      *
-     * @param Request  $request  HTTP request
-     * @param Category $category Category entity
+     * @param Request $request HTTP request
+     * @param Category    $category    Category entity
      *
      * @return Response HTTP response
      */
-    #[Route('/delete/{id}', name: 'category_delete', requirements: ['id' => '\d+'], methods: ['GET', 'DELETE'])]
-    public function delete(Request $request, Category $category): Response
+    #[Route('/delete/{id}', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    public function delete(Request $request, int $id): Response
     {
-        $form = $this->createForm(FormType::class, $category, [
-            'method' => 'DELETE',
-            'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
-        ]);
+        $category = $this->categoryRepository->find($id);
+        $form = $this->createForm(
+            FormType::class,
+            $category,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('category_delete', ['id' => $id]),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -159,7 +166,7 @@ class CategoryController extends AbstractController
             'category/delete.html.twig',
             [
                 'form' => $form->createView(),
-                'category' => $category,
+                'recipe' => $category,
             ]
         );
     }

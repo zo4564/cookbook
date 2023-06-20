@@ -16,6 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -82,6 +85,29 @@ class UserController extends AbstractController
             'user/show.html.twig',
             ['user' => $user, 'pagination' => $pagination]
         );
+    }
+
+    public function admin(Request $request, Security $security, User $user): Response
+    {
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+            $this->redirectToRoute('recipe_index');
+
+        $form = $this->createForm(UserType::class, $user,
+        [
+            'method' => 'POST',
+            'action' => $this->generateUrl('admin', ['id' => $user->getUserIdentifier()])
+            ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->save($user);
+            $this->addFlash('success', $this->translator->trans('user.edited_successfully'));
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render(
+            'user/admin.html.twig',
+            ['user' => $user, 'form' => $form->createView()]);
     }
     /**
      * Create action.

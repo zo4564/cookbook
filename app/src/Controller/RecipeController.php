@@ -13,6 +13,7 @@ use App\Service\CommentService;
 use App\Service\RecipeServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +34,7 @@ class RecipeController extends AbstractController
      * Translator.
      */
     private TranslatorInterface $translator;
+    private RecipeRepository $recipeRepository;
 
     /**
      * Constructor.
@@ -40,10 +42,11 @@ class RecipeController extends AbstractController
      * @param RecipeServiceInterface $recipeService Recipe service
      * @param TranslatorInterface  $translator  Translator
      */
-    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator)
+    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator, RecipeRepository $recipeRepository)
     {
         $this->recipeService = $recipeService;
         $this->translator = $translator;
+        $this->recipeRepository = $recipeRepository;
     }
 
     /**
@@ -58,10 +61,8 @@ class RecipeController extends AbstractController
     #[Route(name: 'recipe_index', methods: 'GET')]
     public function index(Request $request, RecipeRepository $recipeRepository, PaginatorInterface $paginator): Response
     {
-        $pagination = $paginator->paginate(
-            $recipeRepository->findAll(),
-            $request->query->getInt('page', 1),
-            RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
+        $pagination = $this->recipeService->getPaginatedList(
+            $request->query->getInt('page', 1)
         );
 
         return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
@@ -121,6 +122,81 @@ class RecipeController extends AbstractController
         }
 
         return $this->render('recipe/create.html.twig',  ['form' => $form->createView()]);
+    }
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Recipe    $recipe    Recipe entity
+     *
+     * @return Response HTTP response
+     */
+
+    #[Route('/delete/{id}', name: 'recipe_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    public function delete(Request $request, int $id): Response
+    {
+        $recipe = $this->recipeRepository->find($id);
+        $form = $this->createForm(
+            FormType::class,
+            $recipe,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('recipe_delete', ['id' => $id]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->recipeService->delete($recipe);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render(
+            'recipe/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'recipe' => $recipe,
+            ]
+        );
+    }
+
+    #[Route('/edit/{id}', name: 'recipe_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    public function edit (Request $request, int $id): Response
+    {
+        $recipe = $this->recipeRepository->find($id);
+        $form = $this->createForm(
+            RecipeType::class,
+            $recipe,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('recipe_edit', ['id' => $id]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->recipeService->save($recipe);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render(
+            'recipe/create.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 
 
