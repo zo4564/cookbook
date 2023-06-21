@@ -38,23 +38,9 @@ class UserType extends AbstractType
             'email',
             EmailType::class,
             [
-                'label' => 'label.name',
+                'label' => 'label.email',
                 'required' => true,
                 'attr' => ['max_length' => 64],
-            ])
-            ->add('password', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please provide a password.',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Password is required to have at least {{ limit }} characters',
-                        'max' => 4096,
-                    ]),
-                ],
             ])
             ->add(
                 'name',

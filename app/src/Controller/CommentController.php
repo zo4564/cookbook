@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 /**
  * comment controller.
  */
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Form\CommentType;
@@ -13,6 +15,7 @@ use App\Repository\RecipeRepository;
 use App\Service\CommentServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -96,23 +99,17 @@ class CommentController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create/{id}', name: 'comment_create', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
-    public function create(Request $request, int $id, RecipeRepository $recipeRepository): Response
+    public function create(Request $request, Recipe $recipe, RecipeRepository $recipeRepository): Response
     {
         $comment = new Comment();
         $user = $this->getUser();
-        $recipe = $recipeRepository->find($id);
-
-        if (!$recipe) {
-            throw $this->createNotFoundException('Recipe not found');
-        }
-
         $comment->setUser($user);
         $comment->setRecipe($recipe);
 
         $form = $this->createForm(
             CommentType::class,
             $comment,
-            ['action' => $this->generateUrl('comment_create', ['id' => $id]), 'current_user' => $user, 'current_recipe' => $recipe]
+            ['action' => $this->generateUrl('comment_create', ['id' => $recipe->getId()]), 'current_user' => $user, 'current_recipe' => $recipe]
         );
         $form->handleRequest($request);
 
@@ -124,9 +121,41 @@ class CommentController extends AbstractController
                 $this->translator->trans('message.created_successfully')
             );
 
-            return $this->redirectToRoute('recipe_show', ['id' => $id]);
+            return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
         }
 
         return $this->render('comment/create.html.twig', ['form' => $form->createView()]);
+    }
+    #[Route('/delete/{id}', name: 'comment_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    public function delete(Request $request, Comment $comment): Response
+    {
+        $form = $this->createForm(
+            FormType::class,
+            $comment,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('comment_delete', ['id' => $comment->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->commentService->delete($comment);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('comment_index');
+        }
+
+        return $this->render(
+            'comment/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'comment' => $comment,
+            ]
+        );
     }
 }

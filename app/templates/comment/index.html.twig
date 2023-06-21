@@ -45,6 +45,9 @@
                         <a href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
+                        <a href="{{ url('comment_delete', {id: comment.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

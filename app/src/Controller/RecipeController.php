@@ -7,7 +7,6 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Form\RecipeType;
-use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use App\Service\CommentService;
 use App\Service\RecipeServiceInterface;
@@ -81,9 +80,8 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET',
     )]
-    public function show(Request $request, CommentService $commentService, RecipeRepository $recipeRepository, int $id): Response
+    public function show(Request $request, CommentService $commentService, RecipeRepository $recipeRepository, Recipe $recipe): Response
     {
-        $recipe = $recipeRepository->find($id);
         $pagination = $commentService->getPaginatedListByRecipe($request->query->getInt('page', 1), $recipe);
 
         return $this->render(
@@ -133,15 +131,14 @@ class RecipeController extends AbstractController
      */
 
     #[Route('/delete/{id}', name: 'recipe_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    public function delete(Request $request, int $id): Response
+    public function delete(Request $request, Recipe $recipe): Response
     {
-        $recipe = $this->recipeRepository->find($id);
         $form = $this->createForm(
             FormType::class,
             $recipe,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('recipe_delete', ['id' => $id]),
+                'action' => $this->generateUrl('recipe_delete', ['id' => $recipe->getId()]),
             ]
         );
         $form->handleRequest($request);
@@ -166,16 +163,22 @@ class RecipeController extends AbstractController
         );
     }
 
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
     #[Route('/edit/{id}', name: 'recipe_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    public function edit (Request $request, int $id): Response
+    public function edit (Request $request, Recipe $recipe): Response
     {
-        $recipe = $this->recipeRepository->find($id);
         $form = $this->createForm(
             RecipeType::class,
             $recipe,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('recipe_edit', ['id' => $id]),
+                'action' => $this->generateUrl('recipe_edit', ['id' => $recipe->getId()]),
             ]
         );
         $form->handleRequest($request);

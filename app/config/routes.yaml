@@ -1,79 +1,79 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-hello_index:
-  path: /hello
-  controller: App\Controller\HelloController::index
-  defaults:
-    name: 'hej'
-
-recipe_index:
-  path: /recipe
-  controller: App\Controller\RecipeController::index
-
-category_index:
-  path: /category
-  controller: App\Controller\CategoryController::index
-
-comment_index:
-  path: /comment
-  controller: App\Controller\CommentController::index
-
-user_index:
-  path: /user
-  controller: App\Controller\UserController::index
-
-recipe_show:
-  path: /recipe/show/{id}
-  controller: App\Controller\RecipeController::show
-
-category_show:
-  path: /category/show/{id}
-  controller: App\Controller\CategoryController::show
-
-comment_show:
-  path: /comment/show/{id}
-  controller: App\Controller\CommentController::show
-
-user_show:
-  path: /user/show/{id}
-  controller: App\Controller\UserController::show
-
-admin:
-  path: /user/admin
-  controller: App\Controller\UserController::admin
-
-category_create:
-  path: /category/create
-  controller: App\Controller\CategoryController::create
-
-recipe_create:
-  path: /recipe/create
-  controller: App\Controller\RecipeController::create
-
-comment_create:
-  path: /comment/create/{id}
-  controller: App\Controller\CommentController::create
-
-recipe_edit:
-  path: /recipe/edit/{id}
-  controller: App\Controller\RecipeController::edit
-
-category_delete:
-  path: /category/delete/{id}
-  controller: App\Controller\CategoryController::delete
-
-recipe_delete:
-  path: /recipe/delete/{id}
-  controller: App\Controller\RecipeController::delete
-
-app_login:
-  path: /login
-  controller: App\Controller\SecurityController::login
-  methods: [GET, POST]
-
-app_logout:
-  path: /logout
-  controller: App\Controller\SecurityController::logout
-  methods: [GET, POST]
-
+##index:
+##    path: /
+##    controller: App\Controller\DefaultController::index
+#hello_index:
+#  path: /hello
+#  controller: App\Controller\HelloController::index
+#  defaults:
+#    name: 'hej'
+#
+#recipe_index:
+#  path: /recipe
+#  controller: App\Controller\RecipeController::index
+#
+#category_index:
+#  path: /category
+#  controller: App\Controller\CategoryController::index
+#
+#comment_index:
+#  path: /comment
+#  controller: App\Controller\CommentController::index
+#
+#user_index:
+#  path: /user
+#  controller: App\Controller\UserController::index
+#
+#recipe_show:
+#  path: /recipe/show/{id}
+#  controller: App\Controller\RecipeController::show
+#
+#category_show:
+#  path: /category/show/{id}
+#  controller: App\Controller\CategoryController::show
+#
+#comment_show:
+#  path: /comment/show/{id}
+#  controller: App\Controller\CommentController::show
+#
+#user_show:
+#  path: /user/show/{id}
+#  controller: App\Controller\UserController::show
+#
+#user_edit:
+#  path: /user/edit/{id}
+#  controller: App\Controller\UserController::edit
+#
+#category_create:
+#  path: /category/create
+#  controller: App\Controller\CategoryController::create
+#
+#recipe_create:
+#  path: /recipe/create
+#  controller: App\Controller\RecipeController::create
+#
+#comment_create:
+#  path: /comment/create/{id}
+#  controller: App\Controller\CommentController::create
+#
+#recipe_edit:
+#  path: /recipe/edit/{id}
+#  controller: App\Controller\RecipeController::edit
+#
+#category_delete:
+#  path: /category/delete/{id}
+#  controller: App\Controller\CategoryController::delete
+#
+#recipe_delete:
+#  path: /recipe/delete/{id}
+#  controller: App\Controller\RecipeController::delete
+#
+#app_login:
+#  path: /login
+#  controller: App\Controller\SecurityController::login
+#  methods: [GET, POST]
+#
+#app_logout:
+#  path: /logout
+#  controller: App\Controller\SecurityController::logout
+#  methods: [GET, POST]
+#

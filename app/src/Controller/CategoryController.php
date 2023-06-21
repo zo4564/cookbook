@@ -6,7 +6,9 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Recipe;
 use App\Form\CategoryType;
+use App\Form\RecipeType;
 use App\Service\CategoryService;
 use App\Repository\CategoryRepository;
 use App\Service\CategoryServiceInterface;
@@ -129,6 +131,38 @@ class CategoryController extends AbstractController
         return $this->render('category/create.html.twig',  ['form' => $form->createView()]);
     }
 
+    #[Route('/edit/{id}', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    public function edit (Request $request, Category $category): Response
+    {
+        $form = $this->createForm(
+            CategoryType::class,
+            $category,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->categoryService->save($category);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('category_index');
+        }
+
+        return $this->render(
+            'category/create.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
     /**
      * Delete action.
      *
@@ -138,15 +172,14 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/delete/{id}', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    public function delete(Request $request, int $id): Response
+    public function delete(Request $request, Category $category): Response
     {
-        $category = $this->categoryRepository->find($id);
         $form = $this->createForm(
             FormType::class,
             $category,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('category_delete', ['id' => $id]),
+                'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
             ]
         );
         $form->handleRequest($request);

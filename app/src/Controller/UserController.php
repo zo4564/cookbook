@@ -54,8 +54,10 @@ class UserController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'user_index', methods: 'GET')]
-    public function index(Request $request): Response
+    public function index(Request $request, Security $security): Response
     {
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+            $this->redirectToRoute('recipe_index');
         $pagination = $this->userService->getPaginatedList(
             $request->query->getInt('page', 1)
         );
@@ -76,9 +78,11 @@ class UserController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
-    public function show(Request $request, UserRepository $userRepository, CommentService $commentService, int $id): Response
+    public function show(Request $request, UserRepository $userRepository, CommentService $commentService, Security $security, User $user): Response
     {
-        $user = $userRepository->find($id);
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+            $this->redirectToRoute('recipe_index');
+
         $pagination = $commentService->getPaginatedListByUser($request->query->getInt('page', 1), $user);
 
         return $this->render(
@@ -87,7 +91,16 @@ class UserController extends AbstractController
         );
     }
 
-    public function admin(Request $request, Security $security, User $user): Response
+    /*
+
+     */
+    #[Route(
+        '/edit/{id}',
+        name: 'user_edit',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|POST'
+    )]
+    public function edit(Request $request, Security $security, User $user): Response
     {
         if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
             $this->redirectToRoute('recipe_index');
@@ -95,7 +108,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user,
         [
             'method' => 'POST',
-            'action' => $this->generateUrl('admin', ['id' => $user->getUserIdentifier()])
+            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()])
             ]);
         $form->handleRequest($request);
 
@@ -106,7 +119,7 @@ class UserController extends AbstractController
         }
 
         return $this->render(
-            'user/admin.html.twig',
+            'user/edit.html.twig',
             ['user' => $user, 'form' => $form->createView()]);
     }
     /**
@@ -115,7 +128,7 @@ class UserController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
-     */
+
     #[Route(
         '/create',
         name: 'user_create',
@@ -127,7 +140,6 @@ class UserController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
-     */
     #[Route('/create', name: 'user_create', methods: 'GET|POST', )]
     public function create(Request $request): Response
     {
@@ -152,7 +164,7 @@ class UserController extends AbstractController
 
         return $this->render('user/create.html.twig',  ['form' => $form->createView()]);
     }
-
+    */
     /**
      * Delete action.
      *
@@ -161,9 +173,12 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
+
     #[Route('/delete/{id}', name: 'user_delete', requirements: ['id' => '\d+'], methods: ['GET', 'DELETE'])]
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, Security $security, User $user): Response
     {
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+            $this->redirectToRoute('recipe_index');
         $form = $this->createForm(FormType::class, $user, [
             'method' => 'DELETE',
             'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),

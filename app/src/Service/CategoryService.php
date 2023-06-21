@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Repository\CategoryRepository;
+use App\Repository\RecipeRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Category;
@@ -25,15 +26,21 @@ class CategoryService implements CategoryServiceInterface
      */
     private PaginatorInterface $paginator;
 
+    private RecipeRepository $recipeRepository;
+
+    private RecipeService $recipeService;
+
     /**
      * Constructor.
      *
      * @param CategoryRepository     $categoryRepository Category repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(CategoryRepository $categoryRepository, PaginatorInterface $paginator)
+    public function __construct(CategoryRepository $categoryRepository, RecipeRepository $recipeRepository, RecipeService $recipeService, PaginatorInterface $paginator)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->recipeRepository = $recipeRepository;
+        $this->recipeService = $recipeService;
         $this->paginator = $paginator;
     }
 
@@ -69,6 +76,14 @@ class CategoryService implements CategoryServiceInterface
      */
     public function delete(Category $category): void
     {
+        $recipes = $this->recipeRepository->findBy(
+            ['category' => $category]
+        );
+
+        foreach ($recipes as $recipe) {
+            $this->recipeService->delete($recipe);
+        }
+
         $this->categoryRepository->delete($category);
     }
 }

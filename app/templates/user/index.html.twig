@@ -31,6 +31,9 @@
                         <a href="{{ url('user_show', {id: user.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
+                        <a href="{{ url('user_edit', {id: user.id}) }}" name="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

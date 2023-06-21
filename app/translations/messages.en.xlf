@@ -42,9 +42,9 @@
          <source>message.category_not_found</source>
          <target>Category not found.</target>
       </trans-unit>
-      <trans-unit id="name.category_list">
-        <source>name.category_list</source>
-        <target>Category list</target>
+      <trans-unit id="name.recipe_list">
+        <source>name.recipe_category_list</source>
+        <target>Recipes</target>
       </trans-unit>
       <trans-unit id="name.category_view">
         <source>name.category_view</source>
@@ -56,11 +56,11 @@
       </trans-unit>
       <trans-unit id="action.show">
         <source>action.show</source>
-        <target>Show details</target>
+        <target>Show</target>
       </trans-unit>
     <trans-unit id="title.category_list">
       <source>title.category_list</source>
-      <target>Category list</target>
+      <target>Categories</target>
     </trans-unit>
     <trans-unit id="label.category">
       <source>label.category</source>
@@ -68,12 +68,137 @@
     </trans-unit>
     <trans-unit id="title.category_details">
       <source>title.category_details</source>
-      <target>Category details</target>
+      <target>Details</target>
     </trans-unit>
     <trans-unit id="action.back_to_list">
       <source>action.back_to_list</source>
-      <target>Back to list</target  >
+      <target>Back to list</target>
     </trans-unit>
+      <trans-unit id="name.category_list">
+        <source>name.category_list</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="name.recipe_list ">
+        <source>name.recipe_list</source>
+        <target>Recipes</target>
+      </trans-unit>
+      <trans-unit id="action_login">
+        <source>action_login</source>
+        <target>Log in</target>
+      </trans-unit>
+      <trans-unit id="label.createdAt">
+        <source>label.createdAt</source>
+        <target>Created at</target>
+      </trans-unit>
+      <trans-unit id="action.add_recipe">
+        <source>action.add_recipe</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="action.add_category">
+        <source>action.add_category</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="action_logout">
+        <source>action_logout</source>
+        <target>Log out</target>
+      </trans-unit>
+      <trans-unit id="action.edit">
+        <source>action.edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="action.delete">
+        <source>action.delete</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="title.comment_list">
+        <source>title.comment_list</source>
+        <target>Comments</target>
+      </trans-unit>
+      <trans-unit id="name.comment_list">
+        <source>name.comment_list</source>
+        <target>Comments</target>
+      </trans-unit>
+      <trans-unit id="name.user_list">
+        <source>name.user_list</source>
+        <target>Users</target>
+      </trans-unit>
+      <trans-unit id="label.created_at">
+        <source>label.created_at</source>
+        <target>Created at</target>
+      </trans-unit>
+      <trans-unit id="label.recipe">
+        <source>label.recipe</source>
+        <target>Recipe</target>
+      </trans-unit>
+      <trans-unit id="label.user">
+        <source>label.user</source>
+        <target>User</target>
+      </trans-unit>
+      <trans-unit id="label.email">
+        <source>label.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="label.show">
+        <source>label.show</source>
+        <target>Show</target>
+      </trans-unit>
+      <trans-unit id="label.edit">
+        <source>label.edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="title.user_list">
+        <source>title.user_list</source>
+        <target>Users</target>
+      </trans-unit>
+      <trans-unit id="title.recipe_details">
+        <source>title.recipe_details</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="action.add_comment">
+        <source>action.add_comment</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="title.comment_create">
+        <source>title.comment_create</source>
+        <target>New comment</target>
+      </trans-unit>
+      <trans-unit id="action.save">
+        <source>action.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="title.comment_details">
+        <source>title.comment_details</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="title.user_details">
+        <source>title.user_details</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="title.category_delete">
+        <source>title.category_delete</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="title.category_create">
+        <source>title.category_create</source>
+        <target>Category</target>
+      </trans-unit>
+      <trans-unit id="title.recipe_create">
+        <source>title.recipe_create</source>
+        <target>Recipe</target>
+      </trans-unit>
+      <trans-unit id="label.none">
+        <source>label.none</source>
+        <target>none</target>
+      </trans-unit>
+      <trans-unit id="title.user_edit">
+        <source>title.user_edit</source>
+        <target>Edit user</target>
+      </trans-unit>
+
+
+
+
+
     </body>
   </file>
 </xliff>

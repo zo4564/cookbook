@@ -42,7 +42,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
          - { path: ^/login, roles: PUBLIC_ACCESS}
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/comment/create, roles: PUBLIC_ACCESS}
+         - { path: ^/comment/create, roles: ROLE_USER}
          - { path: ^/comment, roles: ROLE_ADMIN}
          - { path: ^/user, roles: ROLE_ADMIN}
          - { path: ^/recipe/create, roles: ROLE_ADMIN}

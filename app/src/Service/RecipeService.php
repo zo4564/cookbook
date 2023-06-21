@@ -9,7 +9,6 @@ use App\Entity\Recipe;
 use App\Entity\Category;
 use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
-use App\Repository\CategoryRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
