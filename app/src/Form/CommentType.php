@@ -41,26 +41,26 @@ class CommentType extends AbstractType
                 'required' => true,
                 'attr' => ['max_length' => 255],
             ]);
-        if ($options['current_user']) {
-            $builder->add('user', EntityType::class, [
-                'class' => User::class,
-                'label' => 'label.user',
-                'required' => true,
-                'disabled' => true,
-                'choice_label' => 'username',
-                'data' => $options['current_user'], // Set the 'current_user' option as the default value for the user field
-            ]);
-        }
-        if ($options['current_recipe']) {
-            $builder->add('recipe', EntityType::class, [
-                'class' => Recipe::class,
-                'label' => 'label.recipe',
-                'required' => true,
-                'disabled' => true,
-                'choice_label' => 'title',
-                'data' => $options['current_recipe'],
-            ]);
-        }
+//        if ($options['current_user']) {
+//            $builder->add('user', EntityType::class, [
+//                'class' => User::class,
+//                'label' => 'label.user',
+//                'required' => true,
+//                'disabled' => true,
+//                'choice_label' => 'username',
+//                'data' => $options['current_user'], // Set the 'current_user' option as the default value for the user field
+//            ]);
+//        }
+//        if ($options['current_recipe']) {
+//            $builder->add('recipe', EntityType::class, [
+//                'class' => Recipe::class,
+//                'label' => 'label.recipe',
+//                'required' => true,
+//                'disabled' => true,
+//                'choice_label' => 'title',
+//                'data' => $options['current_recipe'],
+//            ]);
+//        }
 
     }
 

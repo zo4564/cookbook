@@ -19,8 +19,8 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
 
         $this->createMany(100, 'recipes', function (int $i) {
             $recipe = new Recipe();
-            $recipe->setTitle($this->faker->word);
-            $recipe->setContent($this->faker->sentence);
+            $recipe->setTitle($this->faker->sentence);
+            $recipe->setContent($this->faker->text);
             $recipe->setCreatedAt(
                 DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')

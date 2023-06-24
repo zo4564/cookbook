@@ -23,7 +23,6 @@
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'recipe.content') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'recipe.createdAt') }}</th>
                 <th>{{'label.category'|trans }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
@@ -34,7 +33,6 @@
                 <tr>
                     <td>{{ recipe.id }}</td>
                     <td>{{ recipe.title }}</td>
-                    <td>{{ recipe.content }}</td>
                     <td>{{ recipe.createdAt|date('Y/m/d') }}</td>
                     <td><a type="button" class="btn btn-secondary" href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ recipe.category.name }}

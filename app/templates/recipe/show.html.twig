@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block title %}
+    {{  recipe.title }}
+    {{ '|' }}
     {{ 'title.recipe_details'|trans({'%id%': recipe.id|default('')}) }}
 {% endblock %}
 
 {% block body %}
 
     {# WYSWIETLENIE PRZEPISU #}
-    <h1>{{ 'title.recipe_details'|trans({'%id%': recipe.id|default('')}) }}</h1>
+    <h1>{{  recipe.title }}</h1>
     {% if recipe is defined and recipe|length %}
         <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ recipe.id }}</dd>
-            <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  recipe.title }}</dd>
-            <dt>{{ 'label.content'|trans }}</dt>
+            <dd class="d-flex justify-content-between"><a type="button" class="btn btn-secondary" href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
+                    {{ recipe.category.name }}</a>
+                <div>{{ recipe.createdAt|date('Y/m/d')  }}</div>
+                </dd>
             <dd>{{  recipe.content }}</dd>
-            <dt>{{ 'label.category'|trans }}</dt>
-            <dd>{{  recipe.category.name }}</dd>
+
         </dl>
         <p>
             <a href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">

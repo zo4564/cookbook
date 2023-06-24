@@ -16,7 +16,7 @@ class Recipe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 45)]
+    #[ORM\Column(length: 250)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

@@ -11,3 +11,8 @@ h1 {
     text-align: center;
 }
 
+dt::after {
+    content: ": ";
+}
+
+

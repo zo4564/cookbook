@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\SignUpType;
 use App\Form\UserType;
 use App\Service\UserService;
 use App\Repository\UserRepository;
@@ -122,32 +123,21 @@ class UserController extends AbstractController
             'user/edit.html.twig',
             ['user' => $user, 'form' => $form->createView()]);
     }
-    /**
-     * Create action.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return Response HTTP response
 
-    #[Route(
-        '/create',
-        name: 'user_create',
-        methods: 'GET|POST',
-    )]
     /**
      * Create action.
      *
      * @param Request $request HTTP request
      *
-     * @return Response HTTP response
-    #[Route('/create', name: 'user_create', methods: 'GET|POST', )]
+     * @return Response HTTP response*/
+    #[Route('/signup', name: 'user_signup', methods: 'GET|POST', )]
     public function create(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(
-            UserType::class,
+            SignUpType::class,
             $user,
-            ['action' => $this->generateUrl('user_create')]
+            ['action' => $this->generateUrl('user_signup')]
         );
         $form->handleRequest($request);
 
@@ -164,7 +154,6 @@ class UserController extends AbstractController
 
         return $this->render('user/create.html.twig',  ['form' => $form->createView()]);
     }
-    */
     /**
      * Delete action.
      *

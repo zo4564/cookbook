@@ -198,6 +198,18 @@
         <source>title.user_edit</source>
         <target>Edit user</target>
       </trans-unit>
+      <trans-unit id="title.user_create">
+        <source>title.user_create</source>
+        <target>New user</target>
+      </trans-unit>
+      <trans-unit id="action_signup">
+        <source>action_signup</source>
+        <target>Sign up</target>
+      </trans-unit>
+      <trans-unit id="label.password">
+        <source>label.password</source>
+        <target>Password</target>
+      </trans-unit>
 
 
 

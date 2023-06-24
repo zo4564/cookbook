@@ -99,7 +99,7 @@ class CommentController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create/{id}', name: 'comment_create', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
-    public function create(Request $request, Recipe $recipe, RecipeRepository $recipeRepository): Response
+    public function create(Request $request, Recipe $recipe): Response
     {
         $comment = new Comment();
         $user = $this->getUser();

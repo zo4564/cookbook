@@ -196,7 +196,19 @@
             </trans-unit>
             <trans-unit id="title.user_edit">
                 <source>title.user_edit</source>
-                <target>Edycja</target>
+                <target>Edytuj</target>
+            </trans-unit>
+            <trans-unit id="title.user_create">
+                <source>title.user_create</source>
+                <target>Nowy użytkownik</target>
+            </trans-unit>
+            <trans-unit id="action_signup">
+                <source>action_signup</source>
+                <target>Zarejestruj się</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Hasło</target>
             </trans-unit>
 
 
