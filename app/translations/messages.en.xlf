@@ -92,11 +92,11 @@
       </trans-unit>
       <trans-unit id="action.add_recipe">
         <source>action.add_recipe</source>
-        <target>Add</target>
+        <target>Add recipe</target>
       </trans-unit>
       <trans-unit id="action.add_category">
         <source>action.add_category</source>
-        <target>Add</target>
+        <target>Add category</target>
       </trans-unit>
       <trans-unit id="action_logout">
         <source>action_logout</source>
@@ -156,7 +156,7 @@
       </trans-unit>
       <trans-unit id="action.add_comment">
         <source>action.add_comment</source>
-        <target>Add</target>
+        <target>Add comment</target>
       </trans-unit>
       <trans-unit id="title.comment_create">
         <source>title.comment_create</source>
@@ -185,6 +185,10 @@
       <trans-unit id="title.recipe_create">
         <source>title.recipe_create</source>
         <target>Recipe</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully ">
+        <source>message.deleted_successfully </source>
+        <target>Deleted.</target>
       </trans-unit>
       <trans-unit id="label.none">
         <source>label.none</source>

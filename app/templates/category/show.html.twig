@@ -37,7 +37,7 @@
                         <td>{{ recipe.title }}</td>
                         <td>{{ recipe.content }}</td>
                         <td>
-                            <a href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
+                            <a type="button" class="btn btn-primary" href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </td>
@@ -62,4 +62,10 @@
             {{ 'message.record_not_found'|trans }}
         </p>
     {% endif %}
+
+    <p>
+        <a href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
+            {{ 'action.back_to_list'|trans }}
+        </a>
+    </p>
 {% endblock %}

@@ -68,7 +68,7 @@
 
         {# DODAJ KOMENTARZ #}
         <p>
-            <a href="{{ url('comment_create', {id: recipe.id}) }}" title="{{ 'action.add_comment'|trans }}">
+            <a type="button" class="btn btn-primary"  href="{{ url('comment_create', {id: recipe.id}) }}" title="{{ 'action.add_comment'|trans }}">
                 {{ 'action.add_comment'|trans }}
             </a>
         </p>

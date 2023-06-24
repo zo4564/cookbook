@@ -28,10 +28,10 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <a href="{{ url('user_show', {id: user.id}) }}" name="{{ 'action.show'|trans }}">
+                        <a  type="button" class="btn btn-primary" href="{{ url('user_show', {id: user.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
-                        <a href="{{ url('user_edit', {id: user.id}) }}" name="{{ 'action.edit'|trans }}">
+                        <a type="button" class="btn btn-success" href="{{ url('user_edit', {id: user.id}) }}" name="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
                     </td>

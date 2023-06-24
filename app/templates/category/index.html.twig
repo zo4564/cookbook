@@ -7,7 +7,7 @@
 {% block body %}
     <h1>{{ 'name.category_list'|trans }}</h1>
     <p>
-        <a href="{{ url('category_create') }}" title="{{ 'action.add_category'|trans }}">
+        <a type="button" class="btn btn-primary" href="{{ url('category_create') }}" title="{{ 'action.add_category'|trans }}">
             {{ 'action.add_category'|trans }}
         </a>
     </p>
@@ -31,14 +31,14 @@
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
                     <td>
-                        <a href="{{ url('category_show', {id: category.id}) }}" name="{{ 'action.show'|trans }}">
+                        <a type="button" class="btn btn-primary" type="button" class="btn btn-primary" href="{{ url('category_show', {id: category.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ url('category_edit', {id: category.id}) }}" name="{{ 'action.edit'|trans }}">
+                        <a type="button" class="btn btn-success" href="{{ url('category_edit', {id: category.id}) }}" name="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
-                        <a href="{{ path('category_delete', {'id': category.id}) }}" name="{{ 'action.delete'|trans }}">
+                        <a type="button" class="btn btn-danger" href="{{ path('category_delete', {'id': category.id}) }}" name="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
                         {% endif %}
