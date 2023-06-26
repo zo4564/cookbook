@@ -36,6 +36,7 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div>{{ app.user.email }}</div>
                 <div>
+{#                    <a class="btn btn-secondary" href="{{ url('user_show', {id: user.id}) }}">{{ 'user_panel'|trans }}</a>#}
                     <a class="btn btn-secondary" href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
                 </div>
             {% else %}

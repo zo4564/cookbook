@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
+    <div class="px-4">
     <h1>{{ 'title.user_details'|trans({'%id%': user.id|default('')}) }}</h1>
     {% if user is defined and user|length %}
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal px-4">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ user.id }}</dd>
             <dt>{{ 'label.name'|trans }}</dt>
@@ -38,13 +39,13 @@
                         <td>{{ comment.id }}</td>
                         <td>{{ comment.content }}</td>
                         <{% if comment.recipe.title is defined %}
-                        <td><a href="{{ url('recipe_show', {id: comment.recipe.id}) }}" name="{{ 'action.show'|trans }}">
+                        <td><a class="btn btn-outline-secondary" href="{{ url('recipe_show', {id: comment.recipe.id}) }}" name="{{ 'action.show'|trans }}">
                                 {{ comment.recipe.title }}
                             </a></td>
                     {% else %} <td> null </td>
                         {% endif %}
                         <td>
-                            <a href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
+                            <a class="btn btn-primary" href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </td>
@@ -69,4 +70,10 @@
             {{ 'message.record_not_found'|trans }}
         </p>
     {% endif %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    </div>
 {% endblock %}

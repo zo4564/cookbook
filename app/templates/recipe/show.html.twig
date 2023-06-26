@@ -8,23 +8,20 @@
 {% block body %}
 
     {# WYSWIETLENIE PRZEPISU #}
-    <h1>{{  recipe.title }}</h1>
+    <h1 class="p-3">{{  recipe.title }}</h1>
     {% if recipe is defined and recipe|length %}
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal px-4">
             <dd class="d-flex justify-content-between"><a type="button" class="btn btn-secondary" href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
                     {{ recipe.category.name }}</a>
                 <div>{{ recipe.createdAt|date('Y/m/d')  }}</div>
                 </dd>
-            <dd>{{  recipe.content }}</dd>
+            <dd class="p-3">{{  recipe.content }}</dd>
 
         </dl>
-        <p>
-            <a href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
+
 
     {# KOMENTARZE #}
+        <div class="px-4">
         <h3>{{ 'title.comment_list'|trans }}</h3>
         {% if pagination is defined and pagination.items|length %}
 
@@ -32,7 +29,7 @@
                 {{ knp_pagination_render(pagination) }}
             </div>
 
-            <table class="table table-striped">
+            <table class="table table-striped p-3">
                 <thead>
                 <tr>
                     <th>{{ knp_pagination_sortable(pagination, 'label.user'|trans, 'comment.user.name') }}</th>
@@ -67,9 +64,12 @@
         {% endif %}
 
         {# DODAJ KOMENTARZ #}
-        <p>
-            <a type="button" class="btn btn-primary"  href="{{ url('comment_create', {id: recipe.id}) }}" title="{{ 'action.add_comment'|trans }}">
+        <p class="d-flex justify-content-center">
+            <a type="button" class="btn btn-primary m-3"  href="{{ url('comment_create', {id: recipe.id}) }}" title="{{ 'action.add_comment'|trans }}">
                 {{ 'action.add_comment'|trans }}
+            </a>
+            <a type="button" class="btn btn-outline-primary m-3" href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
             </a>
         </p>
     {% else %}
@@ -77,4 +77,5 @@
             {{ 'message.record_not_found'|trans }}
         </p>
     {% endif %}
+    </div>
 {% endblock %}

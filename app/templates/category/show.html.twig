@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}</h1>
+    <h1 class="p-3">{{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}</h1>
     {% if category is defined and category|length %}
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal px-4">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ category.id }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{  category.name }}</dd>
         </dl>
 
+        {# przepisy pod kategorią #}
+        <div class="px-4">
         <h3>{{ 'title.recipe_list'|trans }}</h3>
         {% if pagination is defined and pagination.items|length %}
 
@@ -26,7 +28,6 @@
                 <tr>
                     <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
                     <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
-                    <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'recipe.content') }}</th>
                     <th>{{ 'label.actions'|trans }}</th>
                 </tr>
                 </thead>
@@ -35,7 +36,6 @@
                     <tr>
                         <td>{{ recipe.id }}</td>
                         <td>{{ recipe.title }}</td>
-                        <td>{{ recipe.content }}</td>
                         <td>
                             <a type="button" class="btn btn-primary" href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
                                 {{ 'action.show'|trans }}
@@ -64,8 +64,9 @@
     {% endif %}
 
     <p>
-        <a href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
+        <a class="btn btn-outline-primary" href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
             {{ 'action.back_to_list'|trans }}
         </a>
     </p>
+    </div>
 {% endblock %}

@@ -5,21 +5,22 @@
 {% endblock %}
 
 {% block body %}
+    <div class="px-4">
     <h1>{{ 'title.comment_details'|trans({'%id%': comment.id|default('')}) }}</h1>
     {% if comment is defined and comment|length %}
-        <dl class="dl-horizontal">
+        <dl class="dl-horizontal  px-4">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ comment.id }}</dd>
             <dt>{{ 'label.content'|trans }}</dt>
             <dd>{{  comment.content }}</dd>
+            <dt>{{ 'label.user'|trans }}</dt>
+            <dd><a type="button" class="btn btn-outline-secondary" type="button" class="btn btn-primary" href="{{ url('user_show', {id: comment.user.id}) }}" name="{{ 'action.show'|trans }}">
+                    {{ comment.user.name }}
+                </a></dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ comment.createdAt|date('Y/m/d') }}</dd>
         </dl>
-        <p>
-            <a href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
+
         
 
     {% else %}
@@ -27,4 +28,10 @@
             {{ 'message.record_not_found'|trans }}
         </p>
     {% endif %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    </div>
 {% endblock %}
