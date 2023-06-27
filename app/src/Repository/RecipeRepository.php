@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -53,6 +54,22 @@ class RecipeRepository extends ServiceEntityRepository
             )
             ->join('recipe.category', 'category')
             ->orderBy('recipe.createdAt');
+    }
+    /**
+     * Find recipes by tag.
+     *
+     * @param int $tagId Tag ID
+     *
+     * @return Recipe[] Recipe entities
+     */
+    public function findRecipesByTag(Tag $tag): array
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.tags', 'tag')
+            ->where('tag.id = :tagId')
+            ->setParameter('tagId', $tag->getId())
+            ->getQuery()
+            ->getResult();
     }
 
     /**

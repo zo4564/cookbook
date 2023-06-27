@@ -42,10 +42,10 @@
                     {% else %} <td> null </td>
                     {% endif %}
                     <td>
-                        <a type="button" class="btn btn-primary" href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
+                        <a type="button" class="btn btn-primary m-1" href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
-                        <a type="button" class="btn btn-danger" href="{{ url('comment_delete', {id: comment.id}) }}" title="{{ 'action.delete'|trans }}">
+                        <a type="button" class="btn btn-danger m-1" href="{{ url('comment_delete', {id: comment.id}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
                     </td>

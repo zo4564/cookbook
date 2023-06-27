@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -31,6 +32,13 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             /** @var Category $category */
             $category = $this->getRandomReference('categories');
             $recipe->setCategory($category);
+
+            /** @var Tag $tag */
+            for ($j = 0; $j < 4; $j++) {
+                $tag = $this->getRandomReference('tags');
+                $recipe->addTag($tag);
+            }
+
 
             return $recipe;
         });

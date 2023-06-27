@@ -44,17 +44,6 @@ class TagService implements TagServiceInterface
         $this->recipeService = $recipeService;
         $this->paginator = $paginator;
     }
-    /**
-     * Find by title.
-     *
-     * @param string $title Tag title
-     *
-     * @return Tag|null Tag entity
-     */
-    public function findOneByTitle(string $title): ?Tag
-    {
-        return $this->tagRepository->findOneByTitle($title);
-    }
 
     /**
      * Get paginated list.
@@ -72,13 +61,31 @@ class TagService implements TagServiceInterface
         );
     }
     /**
+     * Find by title.
+     *
+     * @param string $title Tag title
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneByTitle(string $title): ?Tag
+    {
+        return $this->tagRepository->findOneByTitle($title);
+    }
+
+
+    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
      */
     public function save(Tag $tag): void
     {
-        $this->tagRepository->save($tag);
+        $title = $tag->getTitle();
+        if(!$this->tagRepository->findBy(['title'=>$title]))
+        {
+            $this->tagRepository->save($tag);
+        }
+
     }
 
     /**

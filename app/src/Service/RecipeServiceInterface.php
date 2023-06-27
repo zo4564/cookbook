@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -23,5 +24,5 @@ interface RecipeServiceInterface
      */
     public function getPaginatedList(int $page): PaginationInterface;
     public function getPaginatedListByCategory(int $page, Category $category): PaginationInterface;
-
+    public function getPaginatedListByTag(int $page, Tag $tag): PaginationInterface;
 }

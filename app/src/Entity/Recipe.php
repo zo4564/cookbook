@@ -37,14 +37,15 @@ class Recipe
     private ?\DateTimeImmutable $createdAt = null;
 
     /**
+    /**
      * Tags.
      *
      * @var ArrayCollection<int, Tag>
      */
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    #[ORM\JoinTable(name: 'tasks_tags')]
     private $tags;
+
 
     public function __construct()
     {

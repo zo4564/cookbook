@@ -31,14 +31,14 @@
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
                     <td>
-                        <a type="button" class="btn btn-primary" type="button" class="btn btn-primary" href="{{ url('category_show', {id: category.id}) }}" name="{{ 'action.show'|trans }}">
+                        <a type="button" class="btn btn-primary m-1" href="{{ url('category_show', {id: category.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
-                        <a type="button" class="btn btn-success" href="{{ url('category_edit', {id: category.id}) }}" name="{{ 'action.edit'|trans }}">
+                        <a type="button" class="btn btn-success m-1" href="{{ url('category_edit', {id: category.id}) }}" name="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
-                        <a type="button" class="btn btn-danger" href="{{ path('category_delete', {'id': category.id}) }}" name="{{ 'action.delete'|trans }}">
+                        <a type="button" class="btn btn-danger m-1" href="{{ path('category_delete', {'id': category.id}) }}" name="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
                         {% endif %}

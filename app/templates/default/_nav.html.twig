@@ -17,6 +17,11 @@
                     {{ 'name.recipe_list'|trans }}
                 </a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('tag_index') }}" name="{{ 'name.tag_list'|trans }}">
+                    {{ 'name.tag_list'|trans }}
+                </a>
+            </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url('comment_index') }}" name="{{ 'name.comment_list'|trans }}">
@@ -36,7 +41,7 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div>{{ app.user.email }}</div>
                 <div>
-{#                    <a class="btn btn-secondary" href="{{ url('user_show', {id: user.id}) }}">{{ 'user_panel'|trans }}</a>#}
+                   <a class="btn btn-secondary" href="{{ url('user_panel_index') }}">{{ 'user_panel'|trans }}</a>
                     <a class="btn btn-secondary" href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
                 </div>
             {% else %}

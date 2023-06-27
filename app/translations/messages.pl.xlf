@@ -210,6 +210,18 @@
                 <source>label.password</source>
                 <target>Hasło</target>
             </trans-unit>
+            <trans-unit id="name.tag_list">
+                <source>name.tag_list</source>
+                <target>Tagi</target>
+            </trans-unit>
+            <trans-unit id="title.tag_details">
+                <source>title.tag_details</source>
+                <target>Szczegóły</target>
+            </trans-unit>
+            <trans-unit id="title.tag_list">
+                <source>title.tag_list</source>
+                <target>Tagi</target>
+            </trans-unit>
 
 
 

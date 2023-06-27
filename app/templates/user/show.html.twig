@@ -30,7 +30,9 @@
                     <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'comment.id') }}</th>
                     <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'comment.content') }}</th>
                     <th>{{ knp_pagination_sortable(pagination, 'label.recipe'|trans, 'comment.recipe.title') }}</th>
-                    <th>{{ 'label.actions'|trans }}</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th>{{ 'label.actions'|trans }}</th>
+                        {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -44,11 +46,13 @@
                             </a></td>
                     {% else %} <td> null </td>
                         {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
                         <td>
                             <a class="btn btn-primary" href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

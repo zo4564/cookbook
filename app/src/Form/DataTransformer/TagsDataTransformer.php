@@ -73,7 +73,6 @@ class TagsDataTransformer implements DataTransformerInterface
                 if (null === $tag) {
                     $tag = new Tag();
                     $tag->setTitle($tagTitle);
-
                     $this->tagService->save($tag);
                 }
                 $tags[] = $tag;
