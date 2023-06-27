@@ -12,6 +12,8 @@ use App\Service\UserService;
 use App\Repository\UserRepository;
 use App\Service\UserServiceInterface;
 use App\Service\CommentService;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use PHPUnit\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -141,9 +143,19 @@ class UserController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            try {
             $this->userService->save($user);
 
+            }
+            catch (UniqueConstraintViolationException $exception){
+                $this->addFlash(
+                    'error',
+                    $this->translator->trans('message.email_taken')
+                );
+                return $this->redirectToRoute('user_signup');
+            }
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.created_successfully')

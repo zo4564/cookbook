@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.user_details'|trans({'%id%': user.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="px-4">
+        <h1>{{ 'title.user_panel'|trans({'%id%': user.id|default('')}) }}</h1>
+        {% if user is defined and user|length %}
+            <dl class="dl-horizontal px-4">
+                <dt>{{ 'label.id'|trans }}</dt>
+                <dd>{{ user.id }}</dd>
+                <dt>{{ 'label.name'|trans }}</dt>
+                <dd>{{  user.name }}</dd>
+                <dt>{{ 'label.email'|trans }}</dt>
+                <dd>{{  user.email }}</dd>
+            </dl>
+
+            <div>
+                <a class="btn btn-primary m-3" href="{{ url('panel_edit')}}" title="{{ 'action.edit'|trans }}">
+                    {{ 'action.edit'|trans }}
+                </a>
+            </div>
+            <h3 class="p-3">{{ 'title.your_comments'|trans }}</h3>
+            <div class="p-3">
+            {% if pagination is defined and pagination.items|length %}
+
+
+                <div class="navigation text-center">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'comment.id') }}</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'comment.content') }}</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'label.recipe'|trans, 'comment.recipe.title') }}</th>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <th>{{ 'label.actions'|trans }}</th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for comment in pagination.items %}
+                        <tr>
+                            <td>{{ comment.id }}</td>
+                            <td>{{ comment.content }}</td>
+                            <{% if comment.recipe.title is defined %}
+                            <td><a class="btn btn-outline-secondary" href="{{ url('recipe_show', {id: comment.recipe.id}) }}" name="{{ 'action.show'|trans }}">
+                                    {{ comment.recipe.title }}
+                                </a></td>
+                        {% else %} <td> null </td>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <a class="btn btn-primary" href="{{ url('comment_show', {id: comment.id}) }}" title="{{ 'action.show'|trans }}">
+                                        {{ 'action.show'|trans }}
+                                    </a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="navigation text-center">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+
+            {% else %}
+                <p>
+                    {{ 'message.empty_list'|trans }}
+                </p>
+            {% endif %}
+
+
+        {% else %}
+            <p>
+                {{ 'message.record_not_found'|trans }}
+            </p>
+        {% endif %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('comment_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    </div>
+    </div>
+{% endblock %}

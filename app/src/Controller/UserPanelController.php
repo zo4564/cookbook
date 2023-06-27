@@ -61,7 +61,34 @@ class UserPanelController extends AbstractController
         $pagination = $commentService->getPaginatedListByUser($request->query->getInt('page', 1), $user);
 
         return $this->render(
-            'user/show.html.twig',
+            'user/panel.html.twig',
             ['user' => $user, 'pagination' => $pagination]
-        );    }
+        );
+    }
+    #[Route(
+        '/edit',
+        name: 'panel_edit',
+        methods: 'GET|POST'
+    )]
+    public function edit(Request $request, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        $form = $this->createForm(UserType::class, $user,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('user_edit', ['id' => $user->getId()])
+            ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->save($user);
+            $this->addFlash('success', $this->translator->trans('user.edited_successfully'));
+            return $this->redirectToRoute('user_panel_index');
+        }
+
+        return $this->render(
+            'user/edit.html.twig',
+            ['user' => $user, 'form' => $form->createView()]);
+    }
 }
