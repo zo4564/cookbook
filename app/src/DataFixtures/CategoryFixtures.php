@@ -11,6 +11,10 @@ use Faker\Generator;
 class CategoryFixtures extends AbstractBaseFixtures
 {
 
+    /**
+     * load data
+     * @return void
+     */
     public function loadData(): void
     {
         $this->createMany(20, 'categories', function (int $i) {

@@ -109,7 +109,7 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->recipeService->save($recipe);
+            $this->recipeService->savie($recipe);
 
             $this->addFlash(
                 'success',
@@ -164,7 +164,7 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Delete action.
+     * Edit action.
      *
      * @param Request $request HTTP request
      *

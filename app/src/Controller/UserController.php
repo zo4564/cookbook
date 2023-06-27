@@ -94,8 +94,12 @@ class UserController extends AbstractController
         );
     }
 
-    /*
-
+    /**
+     * Edit action
+     * @param Request $request
+     * @param Security $security
+     * @param User $user
+     * @return Response
      */
     #[Route(
         '/edit/{id}',
@@ -127,7 +131,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * Create action.
+     * create action.
      *
      * @param Request $request HTTP request
      *

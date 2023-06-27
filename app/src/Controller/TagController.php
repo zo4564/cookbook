@@ -35,7 +35,6 @@ class TagController extends AbstractController
      * Translator.
      */
     private TranslatorInterface $translator;
-    private TagRepository $tagRepository;
 
     /**
      * Constructor.
@@ -44,7 +43,6 @@ class TagController extends AbstractController
     {
         $this->tagService = $tagService;
         $this->translator = $translator;
-        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -94,18 +92,6 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/create',
-        name: 'tag_create',
-        methods: 'GET|POST',
-    )]
-    /**
-     * Create action.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return Response HTTP response
-     */
     #[Route('/create', name: 'tag_create', methods: 'GET|POST', )]
     public function create(Request $request): Response
     {
@@ -131,6 +117,12 @@ class TagController extends AbstractController
         return $this->render('tag/create.html.twig',  ['form' => $form->createView()]);
     }
 
+    /**
+     * Edit action
+     * @param Request $request
+     * @param Tag $tag
+     * @return Response
+     */
     #[Route('/edit/{id}', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit (Request $request, Tag $tag): Response
     {

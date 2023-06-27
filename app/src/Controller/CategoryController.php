@@ -35,6 +35,9 @@ class CategoryController extends AbstractController
      * Translator.
      */
     private TranslatorInterface $translator;
+    /**
+     * CategoryRepository
+     */
     private CategoryRepository $categoryRepository;
 
     /**
@@ -94,18 +97,6 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/create',
-        name: 'category_create',
-        methods: 'GET|POST',
-    )]
-    /**
-     * Create action.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return Response HTTP response
-     */
     #[Route('/create', name: 'category_create', methods: 'GET|POST', )]
     public function create(Request $request): Response
     {
@@ -131,6 +122,12 @@ class CategoryController extends AbstractController
         return $this->render('category/create.html.twig',  ['form' => $form->createView()]);
     }
 
+    /**
+     * Edit action.
+     * @param Request $request
+     * @param Category $category
+     * @return Response
+     */
     #[Route('/edit/{id}', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit (Request $request, Category $category): Response
     {

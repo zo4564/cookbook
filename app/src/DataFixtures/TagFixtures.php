@@ -8,6 +8,10 @@ use Doctrine\Persistence\ObjectManager;
 
 class TagFixtures extends AbstractBaseFixtures
 {
+    /**
+     * load data
+     * @return void
+     */
     public function loadData(): void
     {
         $this->createMany(50, 'tags', function (int $i) {

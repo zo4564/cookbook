@@ -126,6 +126,13 @@ class CommentController extends AbstractController
 
         return $this->render('comment/create.html.twig', ['form' => $form->createView()]);
     }
+
+    /**
+     * Delete action.
+     * @param Request $request
+     * @param Comment $comment
+     * @return Response
+     */
     #[Route('/delete/{id}', name: 'comment_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function delete(Request $request, Comment $comment): Response
     {

@@ -65,6 +65,13 @@ class UserPanelController extends AbstractController
             ['user' => $user, 'pagination' => $pagination]
         );
     }
+
+    /**
+     * edit action
+     * @param Request $request
+     * @param Security $security
+     * @return Response
+     */
     #[Route(
         '/edit',
         name: 'panel_edit',

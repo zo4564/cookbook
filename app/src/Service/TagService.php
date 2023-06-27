@@ -26,9 +26,6 @@ class TagService implements TagServiceInterface
      */
     private PaginatorInterface $paginator;
 
-    private RecipeRepository $recipeRepository;
-
-    private RecipeService $recipeService;
 
 
     /**
