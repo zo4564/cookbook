@@ -11,10 +11,25 @@
     <h1 class="p-3">{{  recipe.title }}</h1>
     {% if recipe is defined and recipe|length %}
         <dl class="dl-horizontal px-4">
-            <dd class="d-flex justify-content-between"><a type="button" class="btn btn-secondary" href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
+            <dd class="d-flex justify-content-between">
+                {% if recipe.rating is defined %}
+                    <div>{{ recipe.rating | round(1, 'ceil') }}/5<img class="px-1"src="{{ asset('images/starS.png') }}"alt="star"></div>
+                {% else %}
+                    <div>{{ 'not_rated'|trans }}</div>
+                {% endif %}
+                <div>
+                    {{ 'label.category'|trans }}:
+                    <a type="button" class="btn btn-secondary mx-3" href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
                     {{ recipe.category.name }}</a>
+                </div>
+                <div>
+                    {{ 'label.tags'|trans }}:
+                        {% for tag in recipe.tags %}
+                            <a class="btn btn-outline-secondary m-1" href="{{ url('tag_show', {id: tag.id}) }}">{{ tag.title }}</a>
+                        {% endfor %}
+                </div>
                 <div>{{ recipe.createdAt|date('Y/m/d')  }}</div>
-                </dd>
+            </dd>
             <dd class="p-3">{{  recipe.content }}</dd>
 
         </dl>
@@ -68,6 +83,9 @@
         <p class="d-flex justify-content-center">
             <a type="button" class="btn btn-primary m-3"  href="{{ url('comment_create', {id: recipe.id}) }}" title="{{ 'action.add_comment'|trans }}">
                 {{ 'action.add_comment'|trans }}
+            </a>
+            <a type="button" class="btn btn-primary m-3"  href="{{ url('recipe_rate', {id: recipe.id}) }}" title="{{ 'action.rate'|trans }}">
+                {{ 'action.rate'|trans }}
             </a>
             <a type="button" class="btn btn-outline-primary m-3" href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

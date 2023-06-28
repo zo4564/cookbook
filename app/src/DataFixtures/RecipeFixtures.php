@@ -28,6 +28,11 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
+            $votes = $this->faker->numberBetween(100, 1000);
+            $score = $votes * $this->faker->numberBetween(1, 5);
+            $recipe->setScore($score);
+            $recipe->setVotes($votes);
+            $recipe->setRating($score/$votes);
 
             /** @var Category $category */
             $category = $this->getRandomReference('categories');

@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Form\RateType;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use App\Service\CommentService;
@@ -33,7 +34,6 @@ class RecipeController extends AbstractController
      * Translator.
      */
     private TranslatorInterface $translator;
-    private RecipeRepository $recipeRepository;
 
     /**
      * Constructor.
@@ -41,11 +41,10 @@ class RecipeController extends AbstractController
      * @param RecipeServiceInterface $recipeService Recipe service
      * @param TranslatorInterface  $translator  Translator
      */
-    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator, RecipeRepository $recipeRepository)
+    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator)
     {
         $this->recipeService = $recipeService;
         $this->translator = $translator;
-        $this->recipeRepository = $recipeRepository;
     }
 
     /**
@@ -58,7 +57,7 @@ class RecipeController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'recipe_index', methods: 'GET')]
-    public function index(Request $request, RecipeRepository $recipeRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request): Response
     {
         $pagination = $this->recipeService->getPaginatedList(
             $request->query->getInt('page', 1)
@@ -80,13 +79,16 @@ class RecipeController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET',
     )]
-    public function show(Request $request, CommentService $commentService, RecipeRepository $recipeRepository, Recipe $recipe): Response
+    public function show(Request $request, CommentService $commentService, Recipe $recipe): Response
     {
+        $score = $recipe->getScore();
+        $votes = $recipe->getVotes();
+        if($score && $votes) $rating = $score/$votes;
         $pagination = $commentService->getPaginatedListByRecipe($request->query->getInt('page', 1), $recipe);
 
         return $this->render(
             'recipe/show.html.twig',
-            ['recipe' => $recipe, 'pagination' => $pagination]
+            ['recipe' => $recipe, 'pagination' => $pagination, 'rating'=>$rating]
         );
     }
 
@@ -109,7 +111,7 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->recipeService->savie($recipe);
+            $this->recipeService->save($recipe);
 
             $this->addFlash(
                 'success',
@@ -196,6 +198,46 @@ class RecipeController extends AbstractController
 
         return $this->render(
             'recipe/create.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+    #[Route('/rate/{id}', name: 'recipe_rate', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    public function rate (Request $request, Recipe $recipe): Response
+    {
+        $currentScore = $recipe->getScore();
+        $form = $this->createForm(
+            RateType::class,
+            $recipe,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('recipe_rate', ['id' => $recipe->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $rating = $form->get('score')->getData();
+            $newScore = $currentScore + $rating;
+            $currentVotes = $recipe->getVotes();
+            $newVotes = $currentVotes + 1;
+            $recipe->setVotes($newVotes);
+            $recipe->setScore($newScore);
+
+            $this->recipeService->save($recipe);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.rated_successfully')
+            );
+
+            return $this->redirectToRoute('recipe_index');
+        }
+
+        return $this->render(
+            'recipe/rate.html.twig',
             [
                 'form' => $form->createView(),
             ]

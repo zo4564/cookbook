@@ -87,6 +87,10 @@ class RecipeService implements RecipeServiceInterface
         {
             $recipe->setCreatedAt(new \DateTimeImmutable());
         }
+        $score = $recipe->getScore();
+        $votes = $recipe->getVotes();
+        if($score && $votes)
+        $recipe->setRating($score/$votes);
         $this->RecipeRepository->save($recipe);
     }
 

@@ -11,6 +11,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
+
 /**
  * @extends ServiceEntityRepository<Recipe>
  *
@@ -49,7 +50,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         return $this->getOrCreateQueryBuilder()
             ->select(
-                'partial recipe.{id, title, content, createdAt}',
+                'partial recipe.{id, title, content, score, votes, rating, createdAt}',
                 'partial category.{id, name}'
             )
             ->join('recipe.category', 'category')
@@ -99,6 +100,7 @@ class RecipeRepository extends ServiceEntityRepository
      */
     public function save(Recipe $recipe): void
     {
+
         $this->_em->persist($recipe);
         $this->_em->flush();
     }

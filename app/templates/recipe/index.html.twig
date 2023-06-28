@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+    <div class="p-4">
 
     <h1>{{ 'title.recipe_list'|trans }}</h1>
     <p>
@@ -18,12 +19,13 @@
             {{ knp_pagination_render(pagination) }}
         </div>
 
-        <table class="table">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.tags'|trans, 'recipe.tag') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.rating'|trans, 'recipe.rating') }}</th>
+                <th>{{ 'label.tags'|trans }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'recipe.createdAt') }}</th>
 
                 <th>{{'label.category'|trans }}</th>
@@ -35,6 +37,11 @@
                 <tr>
                     <td>{{ recipe.id }}</td>
                     <td>{{ recipe.title }}</td>
+                    {% if recipe.rating is defined %}
+                        <td>{{ recipe.rating | round(1, 'ceil')  }}/5</td>
+                    {% else %}
+                        <td>{{ 'not_rated'|trans }}</td>
+                    {% endif %}
                     <td>
                         {% for tag in recipe.tags %}
                             <a class="btn btn-outline-secondary m-1" href="{{ url('tag_show', {id: tag.id}) }}">{{ tag.title }}</a>
@@ -72,4 +79,5 @@
             {{ 'message.empty_list'|trans }}
         </p>
     {% endif %}
+    </div>
 {% endblock %}

@@ -46,6 +46,15 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private $tags;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $score = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $votes = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $rating = null;
+
 
     public function __construct()
     {
@@ -126,6 +135,42 @@ class Recipe
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    public function getVotes(): ?int
+    {
+        return $this->votes;
+    }
+
+    public function setVotes(?int $votes): self
+    {
+        $this->votes = $votes;
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }

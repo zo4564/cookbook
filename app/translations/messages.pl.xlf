@@ -222,6 +222,26 @@
                 <source>title.tag_list</source>
                 <target>Tagi</target>
             </trans-unit>
+            <trans-unit id="user_panel">
+                <source>user_panel</source>
+                <target>Moje konto</target>
+            </trans-unit>
+            <trans-unit id="title.user_panel">
+                <source>title.user_panel</source>
+                <target>Moje konto</target>
+            </trans-unit>
+            <trans-unit id="label.rating">
+                <source>label.rating</source>
+                <target>Ocena</target>
+            </trans-unit>
+            <trans-unit id="title.your_comments">
+                <source>title.your_comments</source>
+                <target>Moje komentarze</target>
+            </trans-unit>
+            <trans-unit id="title.tag_create">
+                <source>title.tag_create</source>
+                <target>Tag</target>
+            </trans-unit>
 
 
 

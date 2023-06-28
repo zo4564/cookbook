@@ -7,12 +7,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Enum\UserRole;
 use App\Entity\User;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserFixtures.
  */
-class UserFixtures extends AbstractBaseFixtures
+class UserFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Password hasher.
@@ -47,6 +48,10 @@ class UserFixtures extends AbstractBaseFixtures
                     'user1234'
                 )
             );
+            for ($j = 0; $j < 4; $j++) {
+                $recipe = $this->getRandomReference('recipes');
+                $user->addRecipe($recipe);
+            }
 
             return $user;
         });
@@ -67,6 +72,18 @@ class UserFixtures extends AbstractBaseFixtures
         });
 
         $this->manager->flush();
+    }
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return string[] of dependencies
+     *
+     * @psalm-return array{0: CategoryFixtures::class}
+     */
+    public function getDependencies(): array
+    {
+        return [CategoryFixtures::class];
     }
 }
 

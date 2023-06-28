@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+    <div class="p-4">
     <h1>{{ 'name.user_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
@@ -12,7 +13,7 @@
             {{ knp_pagination_render(pagination) }}
         </div>
 
-        <table class="table">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id') }}</th>
@@ -49,4 +50,5 @@
             {{ 'message.empty_list'|trans }}
         </p>
     {% endif %}
+    </div>
 {% endblock %}
