@@ -242,6 +242,67 @@
                 <source>title.tag_create</source>
                 <target>Tag</target>
             </trans-unit>
+            <trans-unit id="action.rate">
+                <source>action.rate</source>
+                <target>Oceń ten przepis</target>
+            </trans-unit>
+
+            <trans-unit id="title.index">
+                <source>title.index</source>
+                <target>Hello</target>
+            </trans-unit>
+            <trans-unit id="title.tag_delete">
+                <source>title.tag_delete</source>
+                <target>Usuń tag</target>
+            </trans-unit>
+            <trans-unit id="title.recipe_rate">
+                <source>title.recipe_rate</source>
+                <target>Ocena przepisu</target>
+            </trans-unit>
+            <trans-unit id="title.recipe_delete">
+                <source>title.recipe_delete</source>
+                <target>Usuń przepis</target>
+            </trans-unit>
+            <trans-unit id="not_rated">
+                <source>not_rated</source>
+                <target>Nie oceniono</target>
+            </trans-unit>
+            <trans-unit id="message.already_rated">
+                <source>message.already_rated</source>
+                <target>Już oceniłeś ten przepis.</target>
+            </trans-unit>
+            <trans-unit id="message.created_successfully">
+                <source>message.created_successfully</source>
+                <target>Utworzono.</target>
+            </trans-unit>
+            <trans-unit id="message.deleted_successfully">
+                <source>message.deleted_successfully</source>
+                <target>Usunięto.</target>
+            </trans-unit>
+            <trans-unit id="message.rated_successfully">
+                <source>message.rated_successfully</source>
+                <target>Oceniono.</target>
+            </trans-unit>
+            <trans-unit id="user.edited_successfully">
+                <source>user.edited_successfully</source>
+                <target>Edytowano.</target>
+            </trans-unit>
+            <trans-unit id="message.email_taken">
+                <source>message.email_taken</source>
+                <target>Ten email jest już zajęty.</target>
+            </trans-unit>
+            <trans-unit id="message.record_not_found">
+                <source>message.record_not_found</source>
+                <target>Nie znaleziono rekordu</target>
+            </trans-unit>
+            <trans-unit id="message.acces_denied">
+                <source>message.acces_denied</source>
+                <target>Brak dostępu</target>
+            </trans-unit>
+            <trans-unit id="message.form_error">
+                <source>message.form_error</source>
+                <target>Błąd</target>
+            </trans-unit>
 
 
 

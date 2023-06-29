@@ -10,8 +10,11 @@ use App\Form\RateType;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use App\Service\CommentService;
+use App\Entity\User;
 use App\Service\RecipeServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,16 +38,19 @@ class RecipeController extends AbstractController
      */
     private TranslatorInterface $translator;
 
+    private Security $security;
+
     /**
      * Constructor.
      *
      * @param RecipeServiceInterface $recipeService Recipe service
      * @param TranslatorInterface  $translator  Translator
      */
-    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator)
+    public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator, Security $security)
     {
         $this->recipeService = $recipeService;
         $this->translator = $translator;
+        $this->security = $security;
     }
 
     /**
@@ -81,14 +87,11 @@ class RecipeController extends AbstractController
     )]
     public function show(Request $request, CommentService $commentService, Recipe $recipe): Response
     {
-        $score = $recipe->getScore();
-        $votes = $recipe->getVotes();
-        if($score && $votes) $rating = $score/$votes;
         $pagination = $commentService->getPaginatedListByRecipe($request->query->getInt('page', 1), $recipe);
 
         return $this->render(
             'recipe/show.html.twig',
-            ['recipe' => $recipe, 'pagination' => $pagination, 'rating'=>$rating]
+            ['recipe' => $recipe, 'pagination' => $pagination]
         );
     }
 
@@ -204,8 +207,24 @@ class RecipeController extends AbstractController
         );
     }
     #[Route('/rate/{id}', name: 'recipe_rate', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[IsGranted('ROLE_USER')]
     public function rate (Request $request, Recipe $recipe): Response
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        foreach ($user->getRecipes() as $rated_recipe)
+            {
+                if($rated_recipe === $recipe) {
+                    $this->addFlash(
+                        'success',
+                        $this->translator->trans('message.already_rated')
+                    );
+                }
+
+                return $this->redirectToRoute('recipe_index');
+            }
+
         $currentScore = $recipe->getScore();
         $form = $this->createForm(
             RateType::class,
@@ -219,12 +238,14 @@ class RecipeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $user->addRecipe($recipe);
             $rating = $form->get('score')->getData();
             $newScore = $currentScore + $rating;
             $currentVotes = $recipe->getVotes();
             $newVotes = $currentVotes + 1;
             $recipe->setVotes($newVotes);
             $recipe->setScore($newScore);
+
 
             $this->recipeService->save($recipe);
 

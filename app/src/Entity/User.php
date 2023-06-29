@@ -227,4 +227,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRated(): Collection
+    {
+        return $this->rated;
+    }
+
+    public function addRated(Recipe $rated): self
+    {
+        if (!$this->rated->contains($rated)) {
+            $this->rated->add($rated);
+        }
+
+        return $this;
+    }
+
+    public function removeRated(Recipe $rated): self
+    {
+        $this->rated->removeElement($rated);
+
+        return $this;
+    }
 }
