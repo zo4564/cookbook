@@ -13,15 +13,12 @@ use App\Repository\UserRepository;
 use App\Service\UserServiceInterface;
 use App\Service\CommentService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use PHPUnit\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -32,16 +29,23 @@ class UserController extends AbstractController
 {
     /**
      * User service.
+     *
+     * @var UserServiceInterface|UserService $userService
      */
     private UserServiceInterface $userService;
 
     /**
      * Translator.
+     *
+     * @var TranslatorInterface $translator
      */
     private TranslatorInterface $translator;
 
     /**
      * Constructor.
+     *
+     * @param UserServiceInterface $userService
+     * @param TranslatorInterface  $translator
      */
     public function __construct(UserService $userService, TranslatorInterface $translator)
     {
@@ -52,15 +56,17 @@ class UserController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request $request HTTP Request
+     * @param Request  $request  HTTP Request
+     * @param Security $security security
      *
      * @return Response HTTP response
      */
     #[Route(name: 'user_index', methods: 'GET')]
     public function index(Request $request, Security $security): Response
     {
-        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles())) {
             $this->redirectToRoute('recipe_index');
+        }
         $pagination = $this->userService->getPaginatedList(
             $request->query->getInt('page', 1)
         );
@@ -71,7 +77,10 @@ class UserController extends AbstractController
     /**
      * Show action.
      *
-     * @param User $user User
+     * @param Request        $request
+     * @param CommentService $commentService
+     * @param Security       $security
+     * @param User           $user
      *
      * @return Response HTTP response
      */
@@ -81,10 +90,11 @@ class UserController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
-    public function show(Request $request, UserRepository $userRepository, CommentService $commentService, Security $security, User $user): Response
+    public function show(Request $request, CommentService $commentService, Security $security, User $user): Response
     {
-        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles())) {
             $this->redirectToRoute('recipe_index');
+        }
 
         $pagination = $commentService->getPaginatedListByUser($request->query->getInt('page', 1), $user);
 
@@ -95,11 +105,13 @@ class UserController extends AbstractController
     }
 
     /**
-     * Edit action
-     * @param Request $request
+     * Edit action.
+     *
+     * @param Request  $request
      * @param Security $security
-     * @param User $user
-     * @return Response
+     * @param User     $user
+     *
+     * @return Response HTTP response
      */
     #[Route(
         '/edit/{id}',
@@ -109,25 +121,31 @@ class UserController extends AbstractController
     )]
     public function edit(Request $request, Security $security, User $user): Response
     {
-        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles())) {
             $this->redirectToRoute('recipe_index');
+        }
 
-        $form = $this->createForm(UserType::class, $user,
-        [
+        $form = $this->createForm(
+            UserType::class,
+            $user,
+            [
             'method' => 'POST',
-            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()])
-            ]);
+            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->save($user);
             $this->addFlash('success', $this->translator->trans('user.edited_successfully'));
+
             return $this->redirectToRoute('recipe_index');
         }
 
         return $this->render(
             'user/edit.html.twig',
-            ['user' => $user, 'form' => $form->createView()]);
+            ['user' => $user, 'form' => $form->createView()]
+        );
     }
 
     /**
@@ -136,7 +154,7 @@ class UserController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response*/
-    #[Route('/signup', name: 'user_signup', methods: 'GET|POST', )]
+    #[Route('/signup', name: 'user_signup', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         $user = new User();
@@ -147,17 +165,15 @@ class UserController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
-            $this->userService->save($user);
-
-            }
-            catch (UniqueConstraintViolationException $exception){
+                $this->userService->save($user);
+            } catch (UniqueConstraintViolationException $exception) {
                 $this->addFlash(
                     'error',
                     $this->translator->trans('message.email_taken')
                 );
+
                 return $this->redirectToRoute('user_signup');
             }
             $this->addFlash(
@@ -168,22 +184,23 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
     }
     /**
      * Delete action.
      *
      * @param Request  $request  HTTP request
-     * @param User $user User entity
+     * @param Security $security security
+     * @param User     $user     User entity
      *
      * @return Response HTTP response
      */
-
     #[Route('/delete/{id}', name: 'user_delete', requirements: ['id' => '\d+'], methods: ['GET', 'DELETE'])]
     public function delete(Request $request, Security $security, User $user): Response
     {
-        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles()))
+        if (!in_array('ROLE_ADMIN', $security->getUser()->getRoles())) {
             $this->redirectToRoute('recipe_index');
+        }
         $form = $this->createForm(FormType::class, $user, [
             'method' => 'DELETE',
             'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),

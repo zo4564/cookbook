@@ -302,8 +302,21 @@
         <source>message.form_error</source>
         <target>Error</target>
       </trans-unit>
-
-
+      <trans-unit id="message.category_recipes_delete">
+        <source>message.category_recipes_delete</source>
+        <target>Deleting a category will automatically delete all recipes related to it!
+        </target>
+      </trans-unit>
+      <trans-unit id="action.edit_name">
+        <source>action.edit_name</source>
+        <target>Edit name
+        </target>
+      </trans-unit>
+      <trans-unit id="action.edit_password">
+        <source>action.edit_password</source>
+        <target>Edit password
+        </target>
+      </trans-unit>
 
 
 

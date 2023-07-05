@@ -26,13 +26,13 @@ class TagService implements TagServiceInterface
      */
     private PaginatorInterface $paginator;
 
-
-
     /**
      * Constructor.
      *
-     * @param TagRepository     $tagRepository Tag repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param TagRepository      $tagRepository
+     * @param RecipeRepository   $recipeRepository
+     * @param RecipeService      $recipeService
+     * @param PaginatorInterface $paginator
      */
     public function __construct(TagRepository $tagRepository, RecipeRepository $recipeRepository, RecipeService $recipeService, PaginatorInterface $paginator)
     {
@@ -57,6 +57,7 @@ class TagService implements TagServiceInterface
             TagRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
     /**
      * Find by title.
      *
@@ -69,7 +70,6 @@ class TagService implements TagServiceInterface
         return $this->tagRepository->findOneByTitle($title);
     }
 
-
     /**
      * Save entity.
      *
@@ -78,11 +78,9 @@ class TagService implements TagServiceInterface
     public function save(Tag $tag): void
     {
         $title = $tag->getTitle();
-        if(!$this->tagRepository->findBy(['title'=>$title]))
-        {
+        if (!$this->tagRepository->findBy(['title' => $title])) {
             $this->tagRepository->save($tag);
         }
-
     }
 
     /**
@@ -92,13 +90,6 @@ class TagService implements TagServiceInterface
      */
     public function delete(Tag $tag): void
     {
-//        $recipes = $this->recipeRepository->findBy(
-//            ['tag' => $tag]
-//        );
-//
-//        foreach ($recipes as $recipe) {
-//            $this->recipeService->delete($recipe);
-//        }
 
         $this->tagRepository->delete($tag);
     }

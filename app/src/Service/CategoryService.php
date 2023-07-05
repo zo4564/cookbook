@@ -18,23 +18,36 @@ class CategoryService implements CategoryServiceInterface
 {
     /**
      * Category repository.
+     * @var CategoryRepository $categoryRepository
      */
     private CategoryRepository $categoryRepository;
 
     /**
      * Paginator.
+     * @var PaginatorInterface  $paginator
      */
     private PaginatorInterface $paginator;
 
+    /**
+     * Recipe repository
+     * @var RecipeRepository $recipeRepository
+     */
     private RecipeRepository $recipeRepository;
 
+    /**
+     * Recipe Service
+     *
+     * @var RecipeService $recipeService
+     */
     private RecipeService $recipeService;
 
     /**
      * Constructor.
      *
-     * @param CategoryRepository     $categoryRepository Category repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param CategoryRepository $categoryRepository
+     * @param RecipeRepository   $recipeRepository
+     * @param RecipeService      $recipeService
+     * @param PaginatorInterface $paginator
      */
     public function __construct(CategoryRepository $categoryRepository, RecipeRepository $recipeRepository, RecipeService $recipeService, PaginatorInterface $paginator)
     {
@@ -59,6 +72,7 @@ class CategoryService implements CategoryServiceInterface
             CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
     /**
      * Save entity.
      *

@@ -1,22 +1,26 @@
 <?php
+
 /**
- * index controller
+ * Index controller.
  */
 
 namespace App\Controller;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class indexController
+ * Class IndexController.
  */
-
 class IndexController extends AbstractController
 {
-    #[Route('/', name: 'index',)]
+    /**
+     * Index action.
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->render('index.html.twig');

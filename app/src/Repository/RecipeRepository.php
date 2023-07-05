@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Recipe repository
+ */
 namespace App\Repository;
 
 use App\Entity\Category;
@@ -10,7 +13,6 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-
 
 /**
  * @extends ServiceEntityRepository<Recipe>
@@ -32,6 +34,7 @@ class RecipeRepository extends ServiceEntityRepository
      * @constant int
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
+
     /**
      * Constructor.
      *
@@ -41,6 +44,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recipe::class);
     }
+
     /**
      * Query all records.
      *
@@ -56,10 +60,11 @@ class RecipeRepository extends ServiceEntityRepository
             ->join('recipe.category', 'category')
             ->orderBy('recipe.createdAt');
     }
+
     /**
      * Find recipes by tag.
      *
-     * @param int $tagId Tag ID
+     * @param Tag $tag
      *
      * @return Recipe[] Recipe entities
      */
@@ -93,6 +98,7 @@ class RecipeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
     /**
      * Save entity.
      *
@@ -100,7 +106,6 @@ class RecipeRepository extends ServiceEntityRepository
      */
     public function save(Recipe $recipe): void
     {
-
         $this->_em->persist($recipe);
         $this->_em->flush();
     }
@@ -115,6 +120,25 @@ class RecipeRepository extends ServiceEntityRepository
         $this->_em->remove($recipe);
         $this->_em->flush();
     }
+
+
+    /**
+     * remove
+     *
+     * @param Recipe $entity
+     * @param bool   $flush
+     *
+     * @return void
+     */
+    public function remove(Recipe $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     /**
      * Get or create new query builder.
      *
@@ -126,38 +150,28 @@ class RecipeRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('recipe');
     }
+    //    /**
+    //     * @return Recipe[] Returns an array of Recipe objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('r.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-    public function remove(Recipe $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return Recipe[] Returns an array of Recipe objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Recipe
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Recipe
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

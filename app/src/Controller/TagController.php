@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag controller.
  */
@@ -6,10 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\Tag;
-use App\Entity\Recipe;
 use App\Form\TagType;
-use App\Form\RecipeType;
-use App\Service\TagService;
 use App\Repository\TagRepository;
 use App\Service\TagServiceInterface;
 use App\Service\RecipeService;
@@ -38,8 +36,11 @@ class TagController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param TagServiceInterface $tagService
+     * @param TranslatorInterface $translator
      */
-    public function __construct(TagService $tagService, TranslatorInterface $translator, TagRepository $tagRepository)
+    public function __construct(TagServiceInterface $tagService, TranslatorInterface $translator)
     {
         $this->tagService = $tagService;
         $this->translator = $translator;
@@ -65,7 +66,10 @@ class TagController extends AbstractController
     /**
      * Show action.
      *
-     * @param Tag $tag Tag
+     * @param Request       $request       HTTP request
+     * @param TagRepository $tagRepository Tag repository
+     * @param RecipeService $recipeService Recipe service
+     * @param int           $id            Tag ID
      *
      * @return Response HTTP response
      */
@@ -85,6 +89,7 @@ class TagController extends AbstractController
             ['tag' => $tag, 'pagination' => $pagination]
         );
     }
+
     /**
      * Create action.
      *
@@ -92,7 +97,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'tag_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'tag_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         $tag = new Tag();
@@ -114,17 +119,19 @@ class TagController extends AbstractController
             return $this->redirectToRoute('tag_index');
         }
 
-        return $this->render('tag/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('tag/create.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * Edit action
-     * @param Request $request
-     * @param Tag $tag
-     * @return Response
+     * Edit action.
+     *
+     * @param Request $request HTTP request
+     * @param Tag     $tag     Tag entity
+     *
+     * @return Response HTTP response
      */
     #[Route('/edit/{id}', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    public function edit (Request $request, Tag $tag): Response
+    public function edit(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(
             TagType::class,
@@ -159,7 +166,7 @@ class TagController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Tag    $tag    Tag entity
+     * @param Tag     $tag     Tag entity
      *
      * @return Response HTTP response
      */

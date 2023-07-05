@@ -21,7 +21,7 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Recipe repository.
      */
-    private RecipeRepository $RecipeRepository;
+    private RecipeRepository $recipeRepository;
 
     /**
      * Paginator.
@@ -32,13 +32,14 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Constructor.
      *
-     * @param RecipeRepository     $RecipeRepository Recipe repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param RecipeRepository   $recipeRepository
+     * @param PaginatorInterface $paginator
+     * @param CommentRepository  $commentRepository
      */
-    public function __construct(RecipeRepository $RecipeRepository, PaginatorInterface $paginator, CommentRepository $commentRepository)
+    public function __construct(RecipeRepository $recipeRepository, PaginatorInterface $paginator, CommentRepository $commentRepository)
     {
         $this->commentRepository = $commentRepository;
-        $this->RecipeRepository = $RecipeRepository;
+        $this->recipeRepository = $recipeRepository;
         $this->paginator = $paginator;
     }
 
@@ -52,30 +53,48 @@ class RecipeService implements RecipeServiceInterface
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->RecipeRepository->QueryAll(),
+            $this->recipeRepository->QueryAll(),
             $page,
             RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
 
+    /**
+     * get paginated list by category
+     *
+     * @param int      $page
+     * @param Category $category
+     *
+     * @return PaginationInterface
+     */
     public function getPaginatedListByCategory(int $page, Category $category): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->RecipeRepository->findBy(
+            $this->recipeRepository->findBy(
                 ['category' => $category]
             ),
             $page,
             RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
+    /**
+     * get paginated lis by tag
+     *
+     * @param int $page
+     * @param Tag $tag
+     *
+     * @return PaginationInterface
+     */
     public function getPaginatedListByTag(int $page, Tag $tag): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->RecipeRepository->findRecipesByTag($tag),
+            $this->recipeRepository->findRecipesByTag($tag),
             $page,
             RecipeRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
     /**
      * Save entity.
      *
@@ -83,15 +102,15 @@ class RecipeService implements RecipeServiceInterface
      */
     public function save(Recipe $recipe): void
     {
-        if ($recipe->getId() == null)
-        {
+        if (null === $recipe->getId()) {
             $recipe->setCreatedAt(new \DateTimeImmutable());
         }
         $score = $recipe->getScore();
         $votes = $recipe->getVotes();
-        if($score && $votes)
-        $recipe->setRating($score/$votes);
-        $this->RecipeRepository->save($recipe);
+        if ($score && $votes) {
+            $recipe->setRating($score / $votes);
+        }
+        $this->recipeRepository->save($recipe);
     }
 
     /**
@@ -102,12 +121,11 @@ class RecipeService implements RecipeServiceInterface
     public function delete(Recipe $recipe): void
     {
         $comments = $this->commentRepository->findBy(
-            ['Recipe' => $recipe]
+            ['recipe' => $recipe]
         );
         foreach ($comments as $comment) {
             $this->commentRepository->delete($comment);
         }
-        $this->RecipeRepository->delete($recipe);
+        $this->recipeRepository->delete($recipe);
     }
-
 }

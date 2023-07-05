@@ -47,7 +47,7 @@
                             <a class="btn btn-outline-secondary m-1" href="{{ url('tag_show', {id: tag.id}) }}">{{ tag.title }}</a>
                         {% endfor %}
                     </td>
-                    <td>{{ recipe.createdAt|date('Y/m/d') }}</td>
+                    <td>{{ recipe.createdAt|format_date('long') }}</td>
                     <td><a type="button" class="btn btn-secondary m-1" href="{{ url('category_show', {id: recipe.category.id}) }}" name="{{ 'action.show'|trans }}">
                             {{ recipe.category.name }}
                         </a></td>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UserPanel controller.
  */
@@ -6,20 +7,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\SignUpType;
-use App\Form\UserType;
-use App\Service\UserService;
+use App\Form\UserNameType;
+use App\Form\UserPasswordType;
 use App\Repository\UserRepository;
-use App\Service\UserServiceInterface;
 use App\Service\CommentService;
+use App\Service\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -40,8 +37,11 @@ class UserPanelController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param UserServiceInterface $userService
+     * @param TranslatorInterface  $translator
      */
-    public function __construct(UserService $userService, TranslatorInterface $translator)
+    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)
     {
         $this->userService = $userService;
         $this->translator = $translator;
@@ -50,7 +50,10 @@ class UserPanelController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request $request HTTP Request
+     * @param Request        $request        HTTP Request
+     * @param UserRepository $userRepository User repository
+     * @param CommentService $commentService Comment service
+     * @param Security       $security       Security
      *
      * @return Response HTTP response
      */
@@ -67,35 +70,82 @@ class UserPanelController extends AbstractController
     }
 
     /**
-     * edit action
-     * @param Request $request
-     * @param Security $security
-     * @return Response
+     * Edit name action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Security $security Security
+     *
+     * @return Response HTTP response
      */
     #[Route(
-        '/edit',
-        name: 'panel_edit',
+        '/editName',
+        name: 'panel_edit_name',
         methods: 'GET|POST'
     )]
-    public function edit(Request $request, Security $security): Response
+    public function editName(Request $request, Security $security): Response
     {
         $user = $security->getUser();
 
-        $form = $this->createForm(UserType::class, $user,
+        $form = $this->createForm(
+            UserNameType::class,
+            $user,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('user_edit', ['id' => $user->getId()])
-            ]);
+                'action' => $this->generateUrl('panel_edit_name', ['id' => $user->getId()]),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->save($user);
             $this->addFlash('success', $this->translator->trans('user.edited_successfully'));
+
             return $this->redirectToRoute('user_panel_index');
         }
 
         return $this->render(
             'user/edit.html.twig',
-            ['user' => $user, 'form' => $form->createView()]);
+            ['user' => $user, 'form' => $form->createView()]
+        );
+    }
+
+    /**
+     * Edit password action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Security $security Security
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/editPassword',
+        name: 'panel_edit_password',
+        methods: 'GET|POST'
+    )]
+    public function editPassword(Request $request, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        $form = $this->createForm(
+            UserPasswordType::class,
+            $user,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('panel_edit_password', ['id' => $user->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->save($user);
+            $this->addFlash('success', $this->translator->trans('user.edited_successfully'));
+
+            return $this->redirectToRoute('user_panel_index');
+        }
+
+        return $this->render(
+            'user/edit.html.twig',
+            ['user' => $user, 'form' => $form->createView()]
+        );
     }
 }

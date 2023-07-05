@@ -18,7 +18,7 @@
                     {{ comment.user.name }}
                 </a></dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ comment.createdAt|date('Y/m/d') }}</dd>
+            <dd>{{ comment.createdAt|format_date('long') }}</dd>
         </dl>
 
         

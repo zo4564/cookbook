@@ -1,11 +1,15 @@
 <?php
 
+/**
+ * Category Entity
+ */
 namespace App\Entity;
+
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
+ * Category class
  */
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'categories')]
@@ -25,7 +29,6 @@ class Category
     #[ORM\Column(length: 45)]
     private ?string $name = null;
 
-
     /**
      * @return int|null getId
      */
@@ -35,7 +38,9 @@ class Category
     }
 
     /**
-     * @return string|null
+     * Get name.
+     *
+     * @return string|null $name
      */
     public function getName(): ?string
     {
@@ -43,8 +48,10 @@ class Category
     }
 
     /**
-     * set name
+     * Set name.
+     *
      * @param string $name
+     *
      * @return $this
      */
     public function setName(string $name): self
@@ -53,6 +60,4 @@ class Category
 
         return $this;
     }
-
-
 }

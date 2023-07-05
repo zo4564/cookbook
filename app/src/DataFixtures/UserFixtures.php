@@ -28,6 +28,19 @@ class UserFixtures extends AbstractBaseFixtures implements DependentFixtureInter
         $this->passwordHasher = $passwordHasher;
     }
 
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return string[] of dependencies
+     *
+     * @psalm-return array{0: CategoryFixtures::class}
+     */
+    public function getDependencies(): array
+    {
+        return [CategoryFixtures::class];
+    }
     /**
      * Load data.
      */
@@ -48,7 +61,7 @@ class UserFixtures extends AbstractBaseFixtures implements DependentFixtureInter
                     'user1234'
                 )
             );
-            for ($j = 0; $j < 4; $j++) {
+            for ($j = 0; $j < 4; ++$j) {
                 $recipe = $this->getRandomReference('recipes');
                 $user->addRecipe($recipe);
             }
@@ -73,17 +86,4 @@ class UserFixtures extends AbstractBaseFixtures implements DependentFixtureInter
 
         $this->manager->flush();
     }
-    /**
-     * This method must return an array of fixtures classes
-     * on which the implementing class depends on.
-     *
-     * @return string[] of dependencies
-     *
-     * @psalm-return array{0: CategoryFixtures::class}
-     */
-    public function getDependencies(): array
-    {
-        return [CategoryFixtures::class];
-    }
 }
-

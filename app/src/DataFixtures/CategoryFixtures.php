@@ -1,19 +1,19 @@
 <?php
 
+/**
+ * category fixtures
+ */
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 
+/**
+ * Category fixtures class
+ */
 class CategoryFixtures extends AbstractBaseFixtures
 {
-
     /**
-     * load data
-     * @return void
+     * load data.
      */
     public function loadData(): void
     {
@@ -25,7 +25,5 @@ class CategoryFixtures extends AbstractBaseFixtures
         });
 
         $this->manager->flush();
-
-
     }
 }

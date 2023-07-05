@@ -7,7 +7,6 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
-use App\Entity\Tag;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,13 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class RecipeType extends AbstractType
 {
-
     /**
      * Tags data transformer.
-     *
-     * @var TagsDataTransformer
      */
     private TagsDataTransformer $tagsDataTransformer;
+
     /**
      * Constructor.
      *
@@ -36,6 +33,7 @@ class RecipeType extends AbstractType
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
     }
+
     /**
      * Builds the form.
      *
@@ -56,7 +54,8 @@ class RecipeType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 255],
-            ]);
+            ]
+        );
         $builder->add(
             'content',
             TextType::class,
@@ -64,7 +63,8 @@ class RecipeType extends AbstractType
                 'label' => 'label.content',
                 'required' => true,
                 'attr' => ['max_length' => 255],
-            ]);
+            ]
+        );
         $builder->add(
             'category',
             EntityType::class,

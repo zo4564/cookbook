@@ -44,5 +44,4 @@ interface TagServiceInterface
      * @param Tag $tag Tag entity
      */
     public function delete(Tag $tag): void;
-
 }

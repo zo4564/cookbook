@@ -28,7 +28,7 @@
                             <a class="btn btn-outline-secondary m-1" href="{{ url('tag_show', {id: tag.id}) }}">{{ tag.title }}</a>
                         {% endfor %}
                 </div>
-                <div>{{ recipe.createdAt|date('Y/m/d')  }}</div>
+                <div>{{ recipe.createdAt|format_date('long')  }}</div>
             </dd>
             <dd class="p-3">{{  recipe.content }}</dd>
 
@@ -64,7 +64,7 @@
                         {% else %} <td> null </td>
                         {% endif %}
                         <td>{{ comment.content }}</td>
-                        <td>{{ comment.createdAt|date('Y/m/d')  }}</td>
+                        <td>{{ comment.createdAt|format_date('long')  }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

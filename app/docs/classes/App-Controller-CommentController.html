@@ -142,7 +142,7 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">Class commentController.</p>
+            <p class="phpdocumentor-summary">Class CommentController.</p>
 
 
 
@@ -315,7 +315,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Service-CommentServiceInterface.html"><abbr title="\App\Service\CommentServiceInterface">CommentServiceInterface</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$commentService</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Contracts\Translation\TranslatorInterface">TranslatorInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translator</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Repository-RecipeRepository.html"><abbr title="\App\Repository\RecipeRepository">RecipeRepository</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$recipeRepository</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Service-CommentServiceInterface.html"><abbr title="\App\Service\CommentServiceInterface">CommentServiceInterface</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$commentService</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Contracts\Translation\TranslatorInterface">TranslatorInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translator</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -325,7 +325,8 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Service-CommentServiceInterface.html"><abbr title="\App\Service\CommentServiceInterface">CommentServiceInterface</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
+                    <section class="phpdocumentor-description"><p>Comment service</p>
+</section>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
@@ -335,14 +336,6 @@
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Translator</p>
 </section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$recipeRepository</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Repository-RecipeRepository.html"><abbr title="\App\Repository\RecipeRepository">RecipeRepository</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
 
             </dd>
             </dl>
@@ -368,7 +361,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/CommentController.php"><a href="files/src-controller-commentcontroller.html"><abbr title="src/Controller/CommentController.php">CommentController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">105</span>
 
     </aside>
 
@@ -395,7 +388,8 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Entity-Recipe.html"><abbr title="\App\Entity\Recipe">Recipe</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
+                    <section class="phpdocumentor-description"><p>Recipe entity</p>
+</section>
 
             </dd>
             </dl>
@@ -423,7 +417,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/CommentController.php"><a href="files/src-controller-commentcontroller.html"><abbr title="src/Controller/CommentController.php">CommentController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">136</span>
+    <span class="phpdocumentor-element-found-in__line">151</span>
 
     </aside>
 
@@ -441,14 +435,18 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\HttpFoundation\Request">Request</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>HTTP request</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$comment</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Entity-Comment.html"><abbr title="\App\Entity\Comment">Comment</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Comment entity</p>
+</section>
+
             </dd>
             </dl>
 
@@ -457,7 +455,9 @@
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\HttpFoundation\Response">Response</abbr></span>
             &mdash;
-        
+            <section class="phpdocumentor-description"><p>HTTP response</p>
+</section>
+
     
 </article>
                     <article
@@ -500,7 +500,7 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Repository-CommentRepository.html"><abbr title="\App\Repository\CommentRepository">CommentRepository</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>comment repository</p>
+                    <section class="phpdocumentor-description"><p>Comment repository</p>
 </section>
 
             </dd>
@@ -538,7 +538,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Controller/CommentController.php"><a href="files/src-controller-commentcontroller.html"><abbr title="src/Controller/CommentController.php">CommentController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">80</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
@@ -556,7 +556,8 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/App-Repository-CommentRepository.html"><abbr title="\App\Repository\CommentRepository">CommentRepository</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
+                    <section class="phpdocumentor-description"><p>Comment repository</p>
+</section>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
@@ -564,7 +565,8 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
+                    <section class="phpdocumentor-description"><p>Comment ID</p>
+</section>
 
             </dd>
             </dl>

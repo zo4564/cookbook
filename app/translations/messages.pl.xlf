@@ -304,6 +304,22 @@
                 <target>Błąd</target>
             </trans-unit>
 
+            <trans-unit id="message.category_recipes_delete">
+                <source>message.category_recipes_delete</source>
+                <target>Usunięcie kategorii spowoduje usunięcie wszystkich przepisów w tej kategorii!
+                </target>
+            </trans-unit>
+            <trans-unit id="action.edit_name">
+                <source>action.edit_name</source>
+                <target>Edytuj nick
+                </target>
+            </trans-unit>
+            <trans-unit id="action.edit_password">
+                <source>action.edit_password</source>
+                <target>Edytuj hasło
+                </target>
+            </trans-unit>
+
 
 
 

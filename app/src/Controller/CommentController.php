@@ -1,28 +1,28 @@
 <?php
+
 declare(strict_types=1);
+
 /**
- * comment controller.
+ * Comment controller.
  */
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
-use App\Repository\RecipeRepository;
 use App\Service\CommentServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class commentController.
+ * Class CommentController.
  */
 #[Route('/comment')]
 class CommentController extends AbstractController
@@ -40,21 +40,21 @@ class CommentController extends AbstractController
     /**
      * Constructor.
      *
-     * @param CommentServiceInterface $recipeService Recipe service
-     * @param TranslatorInterface  $translator  Translator
+     * @param CommentServiceInterface $commentService Comment service
+     * @param TranslatorInterface     $translator     Translator
      */
-    public function __construct(CommentServiceInterface $commentService, TranslatorInterface $translator, RecipeRepository $recipeRepository)
+    public function __construct(CommentServiceInterface $commentService, TranslatorInterface $translator)
     {
         $this->commentService = $commentService;
         $this->translator = $translator;
     }
-    /**
+
     /**
      * Index action.
      *
-     * @param Request            $request        HTTP Request
-     * @param CommentRepository     $commentRepository comment repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param Request            $request           HTTP Request
+     * @param CommentRepository  $commentRepository Comment repository
+     * @param PaginatorInterface $paginator         Paginator
      *
      * @return Response HTTP response
      */
@@ -73,7 +73,8 @@ class CommentController extends AbstractController
     /**
      * Show action.
      *
-     * @param comment $comment comment entity
+     * @param CommentRepository $commentRepository Comment repository
+     * @param int               $id                Comment ID
      *
      * @return Response HTTP response
      */
@@ -86,19 +87,27 @@ class CommentController extends AbstractController
     public function show(CommentRepository $commentRepository, int $id): Response
     {
         $comment = $commentRepository->find($id);
+
         return $this->render(
             'comment/show.html.twig',
             ['comment' => $comment]
         );
     }
+
     /**
      * Create action.
      *
      * @param Request $request HTTP request
+     * @param Recipe  $recipe  Recipe entity
      *
      * @return Response HTTP response
      */
-    #[Route('/create/{id}', name: 'comment_create', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
+    #[Route(
+        '/create/{id}',
+        name: 'comment_create',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: ['GET', 'POST']
+    )]
     public function create(Request $request, Recipe $recipe): Response
     {
         $comment = new Comment();
@@ -109,7 +118,11 @@ class CommentController extends AbstractController
         $form = $this->createForm(
             CommentType::class,
             $comment,
-            ['action' => $this->generateUrl('comment_create', ['id' => $recipe->getId()]), 'current_user' => $user, 'current_recipe' => $recipe]
+            [
+                'action' => $this->generateUrl('comment_create', ['id' => $recipe->getId()]),
+                'current_user' => $user,
+                'current_recipe' => $recipe,
+            ]
         );
         $form->handleRequest($request);
 
@@ -129,11 +142,18 @@ class CommentController extends AbstractController
 
     /**
      * Delete action.
-     * @param Request $request
-     * @param Comment $comment
-     * @return Response
+     *
+     * @param Request $request HTTP request
+     * @param Comment $comment Comment entity
+     *
+     * @return Response HTTP response
      */
-    #[Route('/delete/{id}', name: 'comment_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route(
+        '/delete/{id}',
+        name: 'comment_delete',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|POST'
+    )]
     public function delete(Request $request, Comment $comment): Response
     {
         $form = $this->createForm(

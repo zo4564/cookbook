@@ -2,15 +2,18 @@
 
 namespace App\DataFixtures;
 
+/**
+ * tag fixtures
+ */
 use App\Entity\Tag;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 
+/**
+ * tag fixtures class
+ */
 class TagFixtures extends AbstractBaseFixtures
 {
     /**
-     * load data
-     * @return void
+     * load data.
      */
     public function loadData(): void
     {
@@ -22,7 +25,5 @@ class TagFixtures extends AbstractBaseFixtures
         });
 
         $this->manager->flush();
-
-
     }
 }

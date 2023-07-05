@@ -24,7 +24,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Primary key.
-     *
      * @var int|null
      */
     #[ORM\Id]
@@ -34,7 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Email.
-     *
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -52,19 +50,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Password.
-     *
      * @var string|null
      */
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
     private ?string $password;
 
+    /**
+     * @var string|null $name
+     */
     #[ORM\Column(length: 64)]
     private ?string $name = null;
 
+    /**
+     * @var Collection|ArrayCollection $recipes
+     */
     #[ORM\ManyToMany(targetEntity: Recipe::class)]
     private Collection $recipes;
 
+    /**
+     * constructor
+     *
+     */
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
@@ -175,6 +182,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
+     *
+     * @return null
      */
     public function getSalt(): ?string
     {
@@ -192,11 +201,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * get name
+     *
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * set name
+     * @param string $name
+     *
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -205,6 +225,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * get recipies
+     *
      * @return Collection<int, Recipe>
      */
     public function getRecipes(): Collection
@@ -212,6 +234,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->recipes;
     }
 
+    /**
+     * add recipe
+     *
+     * @param Recipe $recipe
+     *
+     * @return $this
+     */
     public function addRecipe(Recipe $recipe): self
     {
         if (!$this->recipes->contains($recipe)) {
@@ -221,6 +250,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * remove recipe
+     *
+     * @param Recipe $recipe
+     *
+     * @return $this
+     */
     public function removeRecipe(Recipe $recipe): self
     {
         $this->recipes->removeElement($recipe);
@@ -229,6 +265,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * get rated recipe.
+     *
      * @return Collection<int, Recipe>
      */
     public function getRated(): Collection
@@ -236,6 +274,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->rated;
     }
 
+    /**
+     * add rated recipe
+     *
+     * @param Recipe $rated
+     *
+     * @return $this
+     */
     public function addRated(Recipe $rated): self
     {
         if (!$this->rated->contains($rated)) {
@@ -245,6 +290,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * remove rated recipe
+     *
+     * @param Recipe $rated
+     *
+     * @return $this
+     */
     public function removeRated(Recipe $rated): self
     {
         $this->rated->removeElement($rated);

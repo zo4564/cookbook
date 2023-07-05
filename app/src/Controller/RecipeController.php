@@ -1,6 +1,6 @@
 <?php
 /**
- * recipe controller.
+ * Recipe controller.
  */
 
 namespace App\Controller;
@@ -8,11 +8,9 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Form\RateType;
 use App\Form\RecipeType;
-use App\Repository\RecipeRepository;
 use App\Service\CommentService;
 use App\Entity\User;
 use App\Service\RecipeServiceInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class recipeController.
+ * Class RecipeController.
  */
 #[Route('/recipe')]
 class RecipeController extends AbstractController
@@ -44,7 +42,8 @@ class RecipeController extends AbstractController
      * Constructor.
      *
      * @param RecipeServiceInterface $recipeService Recipe service
-     * @param TranslatorInterface  $translator  Translator
+     * @param TranslatorInterface    $translator    Translator
+     * @param Security               $security      Security
      */
     public function __construct(RecipeServiceInterface $recipeService, TranslatorInterface $translator, Security $security)
     {
@@ -56,9 +55,7 @@ class RecipeController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request            $request        HTTP Request
-     * @param RecipeRepository     $recipeRepository recipe repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param Request $request HTTP Request
      *
      * @return Response HTTP response
      */
@@ -75,7 +72,9 @@ class RecipeController extends AbstractController
     /**
      * Show action.
      *
-     * @param recipe $recipe recipe entity
+     * @param Request        $request        HTTP request
+     * @param CommentService $commentService Comment service
+     * @param Recipe         $recipe         Recipe entity
      *
      * @return Response HTTP response
      */
@@ -87,7 +86,10 @@ class RecipeController extends AbstractController
     )]
     public function show(Request $request, CommentService $commentService, Recipe $recipe): Response
     {
-        $pagination = $commentService->getPaginatedListByRecipe($request->query->getInt('page', 1), $recipe);
+        $pagination = $commentService->getPaginatedListByRecipe(
+            $request->query->getInt('page', 1),
+            $recipe
+        );
 
         return $this->render(
             'recipe/show.html.twig',
@@ -102,7 +104,7 @@ class RecipeController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'recipe_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'recipe_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         $recipe = new Recipe();
@@ -124,18 +126,26 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_index');
         }
 
-        return $this->render('recipe/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render(
+            'recipe/create.html.twig',
+            ['form' => $form->createView()]
+        );
     }
+
     /**
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Recipe    $recipe    Recipe entity
+     * @param Recipe  $recipe  Recipe entity
      *
      * @return Response HTTP response
      */
-
-    #[Route('/delete/{id}', name: 'recipe_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route(
+        '/delete/{id}',
+        name: 'recipe_delete',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|POST'
+    )]
     public function delete(Request $request, Recipe $recipe): Response
     {
         $form = $this->createForm(
@@ -172,11 +182,17 @@ class RecipeController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
+     * @param Recipe  $recipe  Recipe entity
      *
      * @return Response HTTP response
      */
-    #[Route('/edit/{id}', name: 'recipe_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    public function edit (Request $request, Recipe $recipe): Response
+    #[Route(
+        '/edit/{id}',
+        name: 'recipe_edit',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|POST'
+    )]
+    public function edit(Request $request, Recipe $recipe): Response
     {
         $form = $this->createForm(
             RecipeType::class,
@@ -206,24 +222,37 @@ class RecipeController extends AbstractController
             ]
         );
     }
-    #[Route('/rate/{id}', name: 'recipe_rate', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+
+    /**
+     * Rate action.
+     *
+     * @param Request $request HTTP request
+     * @param Recipe  $recipe  Recipe entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/rate/{id}',
+        name: 'recipe_rate',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET|POST'
+    )]
     #[IsGranted('ROLE_USER')]
-    public function rate (Request $request, Recipe $recipe): Response
+    public function rate(Request $request, Recipe $recipe): Response
     {
         /** @var User $user */
         $user = $this->security->getUser();
 
-        foreach ($user->getRecipes() as $rated_recipe)
-            {
-                if($rated_recipe === $recipe) {
-                    $this->addFlash(
-                        'success',
-                        $this->translator->trans('message.already_rated')
-                    );
-                }
-
-                return $this->redirectToRoute('recipe_index');
+        foreach ($user->getRecipes() as $ratedRecipe) {
+            if ($ratedRecipe === $recipe) {
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.already_rated')
+                );
             }
+
+            return $this->redirectToRoute('recipe_index');
+        }
 
         $currentScore = $recipe->getScore();
         $form = $this->createForm(
@@ -237,7 +266,6 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user->addRecipe($recipe);
             $rating = $form->get('score')->getData();
             $newScore = $currentScore + $rating;
@@ -245,7 +273,6 @@ class RecipeController extends AbstractController
             $newVotes = $currentVotes + 1;
             $recipe->setVotes($newVotes);
             $recipe->setScore($newScore);
-
 
             $this->recipeService->save($recipe);
 
@@ -264,6 +291,4 @@ class RecipeController extends AbstractController
             ]
         );
     }
-
-
 }

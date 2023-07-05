@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * tag repository
+ */
 namespace App\Repository;
 
 use App\Entity\Tag;
@@ -27,10 +30,17 @@ class TagRepository extends ServiceEntityRepository
      * @constant int
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
+
+    /**
+     * constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tag::class);
     }
+
     /**
      * Query all records.
      *
@@ -44,12 +54,27 @@ class TagRepository extends ServiceEntityRepository
             );
     }
 
+    /**
+     * save
+     *
+     * @param Tag $entity
+     *
+     * @return void
+     */
     public function save(Tag $entity): void
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * delete
+     *
+     * @param Tag  $entity
+     * @param bool $flush
+     *
+     * @return void
+     */
     public function delete(Tag $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -58,6 +83,7 @@ class TagRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     /**
      * Get or create new query builder.
      *
@@ -70,28 +96,28 @@ class TagRepository extends ServiceEntityRepository
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 
-//    /**
-//     * @return Tag[] Returns an array of Tag objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Tag[] Returns an array of Tag objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Tag
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Tag
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

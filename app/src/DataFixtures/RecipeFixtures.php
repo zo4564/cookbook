@@ -1,17 +1,25 @@
 <?php
 
+/**
+ * Recipe fixtures
+ */
 namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
 use App\Entity\Tag;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * Recipe fixtures class
+ */
 class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
-
-
+    /**
+     * load data
+     *
+     * @return void
+     */
     public function loadData(): void
     {
         if (null === $this->manager || null === $this->faker) {
@@ -21,10 +29,10 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
         $this->createMany(100, 'recipes', function (int $i) {
             $recipe = new Recipe();
             $recipe->setTitle($this->faker->sentence);
-            $content =$this->faker->paragraph;
+            $content = $this->faker->paragraph;
             $recipe->setContent($content);
             $recipe->setCreatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
@@ -32,18 +40,17 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $score = $votes * $this->faker->numberBetween(1, 5);
             $recipe->setScore($score);
             $recipe->setVotes($votes);
-            $recipe->setRating($score/$votes);
+            $recipe->setRating($score / $votes);
 
             /** @var Category $category */
             $category = $this->getRandomReference('categories');
             $recipe->setCategory($category);
 
-            /** @var Tag $tag */
-            for ($j = 0; $j < 4; $j++) {
+            /* @var Tag $tag */
+            for ($j = 0; $j < 4; ++$j) {
                 $tag = $this->getRandomReference('tags');
                 $recipe->addTag($tag);
             }
-
 
             return $recipe;
         });

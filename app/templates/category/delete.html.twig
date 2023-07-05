@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1>{{ 'title.category_delete'|trans({'%id%': category.id|default('')}) }}</h1>
-    <h2 class="text-danger">Deleting a category will automatically delete all recipes related to it!</h2>
+    <h2 class="text-danger">{{ 'message.category_recipes_delete'|trans }}</h2>
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <div class="form-group row float-sm-right">

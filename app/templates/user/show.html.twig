@@ -40,7 +40,7 @@
                     <tr>
                         <td>{{ comment.id }}</td>
                         <td>{{ comment.content }}</td>
-                        <{% if comment.recipe.title is defined %}
+                        {% if comment.recipe.title is defined %}
                         <td><a class="btn btn-outline-secondary" href="{{ url('recipe_show', {id: comment.recipe.id}) }}" name="{{ 'action.show'|trans }}">
                                 {{ comment.recipe.title }}
                             </a></td>

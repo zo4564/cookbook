@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Index controller.
+ */
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -7,12 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Class SecurityController.
+ */
 class SecurityController extends AbstractController
 {
     /**
-     * Login action
-     * @param AuthenticationUtils $authenticationUtils
-     * @return Response
+     * Login action.
+     *
+     * @param AuthenticationUtils $authenticationUtils Authentication utils
+     *
+     * @return Response HTTP response
      */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -30,8 +39,9 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * Logout action
-     * @return void
+     * Logout action.
+     *
+     * @throws \LogicException
      */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

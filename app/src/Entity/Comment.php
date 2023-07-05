@@ -1,78 +1,151 @@
 <?php
 
+/**
+ * Comment entity
+ */
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * comment class
+ */
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\Table(name: 'comments')]
 class Comment
 {
+    /**
+     * @var int|null $id
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @var string|null $content
+     */
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $Content = null;
+    private ?string $content = null;
 
+    /**
+     * @var \DateTimeImmutable|null $createdAt
+     */
     #[ORM\Column]
-    private ?\DateTimeImmutable $CreatedAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
+    /**
+     * @var Recipe|null $recipe
+     */
     #[ORM\ManyToOne]
-    private ?Recipe $Recipe = null;
+    private ?Recipe $recipe = null;
 
+    /**
+     * @var User|null $user
+     */
     #[ORM\ManyToOne]
     private ?User $user = null;
 
+    /**
+     * Get id.
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get content.
+     *
+     * @return string|null
+     */
     public function getContent(): ?string
     {
-        return $this->Content;
+        return $this->content;
     }
 
-    public function setContent(string $Content): self
+    /**
+     * Set content
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function setContent(string $content): self
     {
-        $this->Content = $Content;
+        $this->content = $content;
 
         return $this;
     }
 
+    /**
+     * Get created at.
+     *
+     * @return \DateTimeImmutable|null
+     */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->CreatedAt;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $CreatedAt): self
+    /**
+     * Set created at.
+     *
+     * @param \DateTimeImmutable $createdAt
+     *
+     * @return $this
+     */
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->CreatedAt = $CreatedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
+    /**
+     * Get recipe
+     *
+     * @return Recipe|null
+     */
     public function getRecipe(): ?Recipe
     {
-        return $this->Recipe;
+        return $this->recipe;
     }
 
-    public function setRecipe(?Recipe $Recipe): self
+    /**
+     * Set recipe.
+     *
+     * @param Recipe|null $recipe
+     *
+     * @return $this
+     */
+    public function setRecipe(?Recipe $recipe): self
     {
-        $this->Recipe = $Recipe;
+        $this->recipe = $recipe;
 
         return $this;
     }
 
+    /**
+     * Get user.
+     *
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * Set user.
+     *
+     * @param User|null $user
+     *
+     * @return $this
+     */
     public function setUser(?User $user): self
     {
         $this->user = $user;
